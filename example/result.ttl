@@ -1,8 +1,8 @@
-?comment, ?email ?date, ?country, ?mod
-"Hallo Dunia", "fpriyatna@fi.upm.es", 2018-10-01, dbr:Indonesia, 2018-10-01
-"Hallo Dunia", "fpriyatna@fi.upm.es", 2018-10-01, dbr:Indonesia, 2018-11-01
-"Hola Mundo", "dchaves@fi.upm.es", 2018-10-02, dbr:Spain, 2018-12-04
-"Hola Mundo", "dchaves@fi.upm.es", 2018-10-02, dbr:Spain, 2018-10-02
-"Hello World", "fpriyatna@fi.upm.es", 2018-11-30, dbr:Indonesia, 2018-11-30
-"Hello World", "dchaves@fi.upm.es", 2018-11-28, dbr:Indonesia, 2018-11-28
-"Hello World", "dchaves@fi.upm.es", 2018-11-28, dbr:Indonesia, 2019-01-01
+?comment, ?email, ?country, ?cour
+"Hallo Dunia", "fpriyatna@fi.upm.es", dbr:Indonesia, 2018-10-01, 0
+"Hallo Dunia", "fpriyatna@fi.upm.es", dbr:Indonesia, 2018-11-01, 0
+"Hola Mundo", "dchaves@fi.upm.es", dbr:Spain, 2018-12-04, 3
+"Hola Mundo", "dchaves@fi.upm.es", dbr:Spain, 2018-10-02, 3
+"Hello World", "fpriyatna@fi.upm.es", dbr:Indonesia, 2018-11-30, 0
+"Hello World", "dchaves@fi.upm.es", dbr:Indonesia, 2018-11-28, 3
+"Hello World", "dchaves@fi.upm.es", dbr:Indonesia, 2019-01-01, 3

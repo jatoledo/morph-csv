@@ -37,13 +37,14 @@ mappings:
 
   person:
     source: 
-     - [people.csv~csv]
+      - [people.csv~csv]
     s: http://ex.org/Person/$(name)$(ln1)$(ln2)
     po:
       - [a, schema:Person]
       - [schema:givenName, $(name)]
       - [schema:familyName, "$(ln1) $(ln2)"]
       - [schema:name, "$(name) $(ln1) $(ln2)"]
+      - [ex:nOfCourse, $(nCourses)]
       - p: schema:email
         o:
          - function: sql:lower
@@ -72,4 +73,4 @@ mappings:
            function: equal
            parameters:
              - [str1, "$(name)$(ln1)$(ln2)"]
-             - [str2, "$(name)$(ln1)$(ln2)"]    
+             - [str2, "$(name)$(ln1)$(ln2)"]
