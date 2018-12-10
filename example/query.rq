@@ -7,7 +7,7 @@ WHERE {
    ?comment rdf:type ex:Comment;
       schema:author ?author;
       schema:dateCreated ?date;
-      schema:dateModified ?mod;
-      ex:hasValue ?mod .
+      schema:dateModified ?m .
+   ?m ex:hasValue ?mod .
    ?author ex:email ?email ;
       ex:hasCountry ?country  }
