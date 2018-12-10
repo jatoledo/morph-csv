@@ -1,0 +1,13 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+PREFIX schema: <http://schema.org/> .
+PREFIX ex: <http://ex.com/>
+
+SELECT ?comment ?email ?date ?country ?mod 
+WHERE {
+   ?comment rdf:type ex:Comment;
+      schema:author ?author;
+      schema:dateCreated ?date;
+      schema:dateModified ?mod;
+      ex:hasValue ?mod .
+   ?author ex:email ?email ;
+      ex:hasCountry ?country  }
