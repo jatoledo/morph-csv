@@ -1,0 +1,75 @@
+mappings:
+  metrostops:
+    source:
+      - [stops.csv~csv]
+    s: http://linkedgtfs.com/madrid/metro/stops/$(stop_id)
+    po: 
+      - [a, gtfs:stop]
+      - [gtfs:code, $(stop_code)]
+      - [foaf:name, $(stop_name)]
+      - [dct:description, $(stop_desc)]
+      - [geo:lat, $(stop_lat)]
+      - [geo:long, $(stop_lon)]
+      - [gtfs:zone, $(zone_id)]
+      - [foaf:page, $(stop_url)]
+      - [gtfs:locationType, $(location_type)]
+      - [gtfs:parentStation, $(parent_station)]
+      - [gtfs:timeZone, $(stop_timezone)]
+      - [gtfs:weelchairAccessible, $(weelchair_boarding)]
+
+  schools:
+    source:
+      - [schools.csv~csv]
+    s: http://madridcity.com/schools/$(pk)
+    po: 
+      - [a, ex:school]
+      - [schema:name, $(name)]
+      - p: ex:transport
+        o:
+          mapping: metrostops
+          condition:
+            function: equal
+            parameters:
+              - paramenter: str1
+                value:
+                  function: sql:replace
+                  parameters:
+                    - parameter: sql:valueParameter
+                      value:
+                        function: sql:lower
+                        parameters:
+                          - [sql:valueParameter, $(stop_name)]
+                    - [sql:valueParameter2, ' ']
+                    - [sql:valueParameter3, '-'] 
+              - paramenter: str2
+                value:
+                  function: sql:replace
+                  parameters:
+                    - parameter: sql:valueParameter
+                      value:
+                        function: sql:lower
+                        parameters:
+                          - parameter: sql:valueParameter
+                            value:
+                              function: sql:substring
+                              parameters:
+                                - [sql:valueParameter, $(transport)]
+                                - parameter: sql:valueParameter2
+                                  value:
+                                    function: sql:sum
+                                    parameters:
+                                      - parameter: sql:valueParameter
+                                        value:
+                                          function: sql:locate
+                                          parameters:
+                                            - [sql:valueParameter, 'METRO:']
+                                            - [sql:valueParameter2, $(transport)]
+                                      - [sql:valueParameter, 7]
+                               - parameter: sql:valueParameter3
+                                 value:
+                                  function: sql:locate
+                                  parameters:
+                                    - [sql:valueParameter, 'BUS']
+                                    - [sql:valueParameter2, $(transport)]
+                    - [sql:valueParameter2, ' ']
+                    - [sql:valueParameter3, '-'] 

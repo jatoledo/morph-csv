@@ -1,0 +1,7 @@
+
+
+SELECT ?schoolName ?metroName WHERE {
+ ?school ex:transport ?metro .
+ ?metro foaf:name ?metroName .
+ ?school schema:name ?schoolName .
+}

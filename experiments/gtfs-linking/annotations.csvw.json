@@ -1,7 +1,9 @@
 {  
 "@context": ["http://www.w3.org/ns/csvw"],
-"url": "stops.csv", 
-"tableSchema": [
+"tables":[
+{ 
+    "url": "trainstops.csv", 
+    "tableSchema": [
         {
           "titles":"location_type",
       	  "datatype": {
@@ -35,4 +37,42 @@
     	    "maximum": "180"
     	  }
     	}]
- }
+},{
+    "url": "trainstops.csv", 
+    "tableSchema": [
+        {
+          "titles":"location_type",
+          "datatype": {
+            "base": "integer",
+            "minimum": "0",
+            "maximum": "2"
+          }
+        },{
+          "titles":"location_type",
+          "datatype": {
+            "base": "integer",
+            "format": "0|1"
+          },
+          "default":"0"
+        },{
+          "titles": "stop_id",
+          "required": true
+        },{
+          "titles": "stop_name",
+          "required": true
+        },{
+          "titles": "stop_lat",
+          "required": true,
+          "datatype": "number"
+        },{
+          "titles": "stop_long",
+          "required": true,
+          "datatype": {
+            "base": "number",
+            "minimum": "-180",
+            "maximum": "180"
+          }
+        }]
+    }
+ ]
+}
