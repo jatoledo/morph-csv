@@ -22,14 +22,14 @@
   {
     "url": "people.csv", 
     "tableSchema": {
-      "rowTitles:["name","ln1","ln2","cName","cOfficialName","nCourses"],
       "columns":[{
            "titles":"ln2",
            "null": ""
         },{
            "titles":"nCourses",
            "default": 0
-      }] 
+      }],
+    "rowTitles": ["name","ln1","ln2","cName","cOfficialName","nCourses"] 
     }
   }]
 }
