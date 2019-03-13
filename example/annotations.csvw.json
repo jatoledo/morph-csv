@@ -10,7 +10,7 @@
                "format": "yyyyMMdd"
             }
         },{
-           "titles": "modifyDate",
+           "titles": "modifiedDates",
            "separator": "-",
            "datatype": {
                "base": "date",
