@@ -28,7 +28,10 @@
            "null": ""
         },{
            "titles":"nCourses",
-           "default": 0
+           "default": 0,
+           "datatype": {
+               "base": "integer"
+            }
       }] 
     }
   }]
