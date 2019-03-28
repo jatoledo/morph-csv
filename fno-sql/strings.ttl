@@ -114,11 +114,11 @@ sql:length a fno:Function ;
 .
 
 sql:regexp_like a fno:Function ;
-	fno:name "regexp_like" ;
-	rdfs:label "regexp_like" ;
-	dcterms:description "Returns the regular expression (second param) matching to a string (first param), including some specifications (third param) for case-insensitive ‘i’, case-sensitive ‘c’, allowing period (.) ’n’ and allowing multiple lines ‘m’" ;
-	fno:expects ( sql:valueParam sql:valueParam2 sql:valueParam3 ) ;
-	fno:returns ( sql:stringOut ) ;
+  fno:name "regexp_like" ;
+  rdfs:label "regexp_like" ;
+  dcterms:description "Returns the regular expression (second param) matching to a string (first param), including some specifications (third param) for case-insensitive ‘i’, case-sensitive ‘c’, allowing period (.) ’n’ and allowing multiple lines ‘m’" ;
+  fno:expects ( sql:valueParam sql:valueParam2 sql:valueParam3 ) ;
+  fno:returns ( sql:stringOut ) ;
 .
 
 sql:valueParam a fno:Parameter ;
