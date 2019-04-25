@@ -1,0 +1,8 @@
+{
+  "sources":[
+    {
+      "csvw":"../mappings/open-city-data-annotations.json",
+      "yarrrml": "../mappings/open-city-data.yml"
+    }
+  ]
+}

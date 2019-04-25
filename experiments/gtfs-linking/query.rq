@@ -1,7 +1,0 @@
-
-
-SELECT ?ns1 ?ns2 WHERE {
- ?s1 owl:sameAs ?s2 .
- ?s1 foaf:name ?ns1 .
- ?s2 foaf:name ?ns2 .
-}

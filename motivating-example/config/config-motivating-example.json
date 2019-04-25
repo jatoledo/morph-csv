@@ -1,0 +1,8 @@
+{
+  "sources":[
+    {
+      "csvw":"../mappings/motivating-example-annotations.csvw.json",
+      "yarrrml": "../mappings/motivating-example.yml"
+    }
+  ]
+}
