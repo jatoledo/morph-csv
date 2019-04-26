@@ -20,12 +20,11 @@ the selected engines and measure the number of responses.
 ### Results
 | Query  | Morph-RDB | Proposal |  
 | :-------------: | :-------------: | 
-| Q1  | 45 | 124 |
-| Q2  | 0 | 21 |
-| Q3  | 0  | 28 | 
-| Q4  | 0 | 18 | 
-| Q5  | 0  | 17 |
-
+| Q1  | 45 | 124 
+| Q2  | 0 | 21 
+| Q3  | 0  | 28  
+| Q4  | 0 | 18  
+| Q5  | 0  | 17 
 
 We are checking how affects the inclusion of basic transformation functions in real-world CSV and we observe that
 state-of-the-art engines are not able to deal with the heterogeneity of this format. We prove that consider this kind
