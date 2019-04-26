@@ -19,7 +19,7 @@ the selected engines and measure the number of responses.
 
 ### Results
 | Query  | Morph-RDB | Proposal |  
-| :-------------: | :-------------: | 
+| :-------------: | :-------------: |  :-------------: | 
 | Q1  | 45 | 124 
 | Q2  | 0 | 21 
 | Q3  | 0  | 28  
