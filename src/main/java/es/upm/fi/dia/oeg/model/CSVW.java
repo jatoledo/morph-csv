@@ -54,7 +54,7 @@ public class CSVW {
 
     public void setContent (Path path){
         try {
-            this.content = new JSONObject(Files.readAllLines(path, Charsets.toCharset("UTF-8")).toString());
+            this.content = new JSONObject(String.join("\n",Files.readAllLines(path, Charsets.toCharset("UTF-8"))));
         }catch (Exception e){
             _log.error("Error reading the CSVW content: "+e.getMessage());
         }

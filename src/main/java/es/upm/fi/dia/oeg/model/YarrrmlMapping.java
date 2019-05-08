@@ -35,7 +35,7 @@ public class YarrrmlMapping {
 
     public void setContent (Path path){
         try {
-            this.content = Files.readAllLines(path, Charsets.toCharset("UTF-8")).toString();
+            this.content = String.join("\n",Files.readAllLines(path, Charsets.toCharset("UTF-8")));
         }catch (Exception e){
             //ToDo log
         }

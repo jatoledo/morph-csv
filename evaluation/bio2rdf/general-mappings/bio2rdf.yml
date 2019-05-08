@@ -14,28 +14,6 @@ prefixes:
   ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
 
 mappings:
-  TMhomologene:
-    sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.data~csv]
-    s: http://bio2rdf.org/homologene:$(hid)
-    po:
-      - [rdf:type, homogv:Resource]
-      - [rdf:type, homogv:Homologene-Group]
-      - [rdfs:label, "homologene group $(hid) [homologene:$(hid)]"]
-      - [dcterms:title, homologene group $(hid)]
-      - [dcterms:identifier, "[homologene:$(hid)]"]
-      - p: homogv:x-ncbigene
-        o:
-          - mapping: TMncbigene-gene_info
-            condition:
-              function: equal
-              parameters:
-                - [str1, $(ncbigene)]
-                - [str2, $(GeneID)]
-      - [homogv:gene-symbol, $(genesymbol)]
-      - [homogv:x-gi, "gi:$(gi)"]
-      - [homogv:x-refseq, "refseq:$(refseq)"]
-
   TMncbigene-gene_info:
     sources:
       - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info~csv]
@@ -60,3 +38,24 @@ mappings:
       - [ncbiv:other-designations, $(Other_designations)]
       - [ncbiv:modification-date, $(Modification_date)]
 
+  TMhomologene:
+    sources:
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.data~csv]
+    s: http://bio2rdf.org/homologene:$(hid)
+    po:
+      - [rdf:type, homogv:Resource]
+      - [rdf:type, homogv:Homologene-Group]
+      - [rdfs:label, "homologene group $(hid) [homologene:$(hid)]"]
+      - [dcterms:title, homologene group $(hid)]
+      - [dcterms:identifier, "[homologene:$(hid)]"]
+      - p: homogv:x-ncbigene
+        o:
+          - mapping: TMncbigene-gene_info
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(ncbigene)]
+                - [str2, $(GeneID)]
+      - [homogv:gene-symbol, $(genesymbol)]
+      - [homogv:x-gi, "gi:$(gi)"]
+      - [homogv:x-refseq, "refseq:$(refseq)"]
