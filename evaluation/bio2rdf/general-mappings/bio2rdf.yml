@@ -33,8 +33,8 @@ mappings:
                 - [str1, $(ncbigene)]
                 - [str2, $(GeneID)]
       - [homogv:gene-symbol, $(genesymbol)]
-      - [homogv:x-gi, gi:$(gi)]
-      - [homogv:x-refseq, refseq:$(refseq)]
+      - [homogv:x-gi, "gi:$(gi)"]
+      - [homogv:x-refseq, "refseq:$(refseq)"]
 
   TMncbigene-gene_info:
     sources:
@@ -43,11 +43,11 @@ mappings:
     po:
       - [rdf:type, ncbiv:Resource]
       - [rdf:type, ncbiv:Gene]
-      - [rdf:type, ncbiv:$(type_of_gene)-Gene]
+      - [rdf:type, "http://bio2rdf.org/ncbigene_vocabulary:$(type_of_gene)-Gene"]
       - [rdfs:label, "$(description) (symbol:$(Symbol), taxon:$(tax_id)) [ncbigene:$(GeneID)]"]
       - [dcterms:title, "$(description) (symbol:$(Symbol), taxon:$(tax_id))"]
-      - [dcterms:description, description]
-      - [dcterms:identifier, ncbigene:$(GeneID)]
+      - [dcterms:description, $(description)]
+      - [dcterms:identifier, "ncbigene:$(GeneID)"]
       - [ncbiv:symbol, $(Symbol)]
       - [ncbiv:locus, $(LocusTag)]
       - [ncbiv:symbol-synonym, $(Synonyms)]
