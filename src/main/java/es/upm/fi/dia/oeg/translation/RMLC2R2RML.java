@@ -4,6 +4,8 @@ package es.upm.fi.dia.oeg.translation;
 import es.upm.fi.dia.oeg.model.RMLCMapping;
 import es.upm.fi.dia.oeg.rmlc.api.model.*;
 import org.apache.commons.rdf.api.IRI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public class RMLC2R2RML {
 
+    private static final Logger _log = LoggerFactory.getLogger(RMLC2R2RML.class);
     private String r2rml;
 
     public String getR2RML(){
@@ -39,7 +42,7 @@ public class RMLC2R2RML {
             writer.write(r2rml);
             writer.close();
         }catch (Exception e){
-
+            _log.error("Error translating RMLC to R2RML: "+e.getMessage());
         }
 
     }

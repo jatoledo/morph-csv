@@ -1,8 +1,13 @@
 package es.upm.fi.dia.oeg.model;
 
 
+import es.upm.fi.dia.oeg.rdb.CSVWUtils;
 import es.upm.fi.dia.oeg.rmlc.api.model.Source;
 import es.upm.fi.dia.oeg.rmlc.api.model.TriplesMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,6 +25,7 @@ public class Dataset {
     private ArrayList<CSV>  csvFiles;
     private String r2rmlMapping;
     private RDB rdb;
+    private static final Logger _log = LoggerFactory.getLogger(Dataset.class);
 
 
     public Dataset (CSVW csvw, YarrrmlMapping yarrrmlMapping){
@@ -71,6 +77,7 @@ public class Dataset {
 
     public void setRmlcMappingY(RMLCMapping rmlcMappingY) {
         this.rmlcMappingY = rmlcMappingY;
+
         setCsvFiles(this.rmlcMappingY.getTriples());
     }
 
@@ -94,18 +101,24 @@ public class Dataset {
         if(csvFiles==null){
             csvFiles = new ArrayList<>();
         }
+        _log.info("Loading the CSV source files");
         tripleMaps.forEach(tripleMap -> {
             String logicalSource=((Source)tripleMap.getLogicalSource()).getSourceName();
             String name = (logicalSource.split("/"))[(logicalSource.split("/")).length-1].replace(".csv","");
+            JSONObject annotations = CSVWUtils.getCSVWFromSource(csvw.getContent().getJSONArray("tables"),logicalSource);
+            JSONObject dialect =null;
+            if(annotations.has("dialect")) {
+                dialect = annotations.getJSONObject("dialect");
+            }
             if(logicalSource.matches("http[s]://.*")){
                 try {
-                    csvFiles.add(new CSV(name, logicalSource, new URL(logicalSource)));
+                    csvFiles.add(new CSV(name, logicalSource, new URL(logicalSource),dialect));
                 }catch (MalformedURLException e){
-
+                    _log.error("Error reading the URL for the CSV "+name+".csv: "+e.getLocalizedMessage());
                 }
             }
             else {
-                csvFiles.add(new CSV(name,logicalSource,Paths.get(logicalSource)));
+                csvFiles.add(new CSV(name,logicalSource,Paths.get(logicalSource),dialect));
             }
 
         });

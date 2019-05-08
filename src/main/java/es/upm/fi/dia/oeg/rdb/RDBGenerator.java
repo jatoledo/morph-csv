@@ -5,6 +5,8 @@ import es.upm.fi.dia.oeg.model.*;
 import es.upm.fi.dia.oeg.rmlc.api.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RDBGenerator {
+
+    private static final Logger _log = LoggerFactory.getLogger(RDBGenerator.class);
     private RMLCMapping rmlc;
     private CSVW csvw;
     private ArrayList<CSV> csvs;
@@ -26,6 +30,7 @@ public class RDBGenerator {
     }
 
     public RDB generateSchemaRDB(){
+
         normalize();
         String schema=createTables();
         rdb = new RDB("db",schema);
@@ -36,16 +41,28 @@ public class RDBGenerator {
 
         JSONArray tables = (JSONArray) csvw.getContent().get("tables");
         //FN1
+        _log.info("Normalizing to FN1 the CSV files");
         for(Object o : tables){
             String csvURL = ((JSONObject) o).getString("url");
+            boolean header=false;
             if((((JSONObject) o).getJSONObject("tableSchema")).has("rowTitles")){
-                JSONArray rows = (((JSONObject) o).getJSONObject("tableSchema")).getJSONArray("rowTitles");
-                String[] csvHeader=rows.join(",").replaceAll("\"","").split(",");
-                for(CSV csv : csvs){
-                    if(csvURL.equals(csv.getUrl())){
-                        csv.getRows().add(0,csvHeader);
+                if(((JSONObject) o).has("dialect")){
+                    JSONObject dialect = ((JSONObject) o).getJSONObject("dialect");
+                    if(dialect.has("header")){
+                        header=dialect.getBoolean("header");
                     }
                 }
+                JSONArray rows = (((JSONObject) o).getJSONObject("tableSchema")).getJSONArray("rowTitles");
+                String[] csvHeader = rows.join(",").replaceAll("\"", "").split(",");
+                for (CSV csv : csvs) {
+                    if (csvURL.equals(csv.getUrl())) {
+                        if(!header)
+                            csv.getRows().add(0, csvHeader);
+                        else
+                            csv.getRows().set(0,csvHeader);
+                    }
+                }
+
             }
             JSONArray columns = ((JSONObject) o).getJSONObject("tableSchema").getJSONArray("columns");
             JSONArray newAnnotations = new JSONArray();
@@ -117,6 +134,7 @@ public class RDBGenerator {
         }
 
         //FN2
+        _log.info("Normalizing to FN2 the CSV files");
         HashMap<String, Boolean> sources = new HashMap<>();
         rmlc.getTriples().forEach(triplesMap -> {
             if(sources.get(((Source)triplesMap.getLogicalSource()).getSourceName())==null)
@@ -161,13 +179,14 @@ public class RDBGenerator {
     }
 
     private String createTables(){
+        _log.info("Generating the schema of the RDB");
         RDBUtils rdbUtils = new RDBUtils();
         return rdbUtils.createSQLSchema(rmlc.getTriples(),csvs,csvw);
     }
 
     public void generateRDB(){
 
-
+        _log.info("Creating the RDB");
         RDBConexion rdbConexion = new RDBConexion(rdb.getName());
         rdbConexion.createDatabase(rdb.getName(),rdb.getContent());
         HashMap<String,HashMap<String,String>> functions = new HashMap<>();

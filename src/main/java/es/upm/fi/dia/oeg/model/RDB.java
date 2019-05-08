@@ -1,12 +1,14 @@
 package es.upm.fi.dia.oeg.model;
 
 import org.apache.commons.io.Charsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class RDB {
-
+    private static final Logger _log = LoggerFactory.getLogger(RDB.class);
     private String name;
     private String content;
 
@@ -40,7 +42,7 @@ public class RDB {
         try {
             this.content = Files.readAllLines(path, Charsets.toCharset("UTF-8")).toString();
         }catch (Exception e){
-            //ToDo log
+           _log.error("Error reading the content of the RDB: "+e.getMessage());
         }
     }
 

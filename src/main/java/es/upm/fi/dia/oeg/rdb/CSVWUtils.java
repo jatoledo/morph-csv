@@ -59,6 +59,19 @@ public class CSVWUtils {
 
     }
 
+    public static JSONObject getCSVWFromSource (JSONArray tables, String csv){
+        JSONObject annotations = null;
+        for(Object o : tables){
+            String ansource = ((JSONObject)o).getString("url");
+            if(ansource.equals(csv)){
+                annotations = (JSONObject) o;
+                break;
+            }
+        }
+        return annotations;
+
+    }
+
     public static JSONObject annotationForID(){
         JSONObject id = new JSONObject();
         HashMap<String,String> datatype = new HashMap<>();

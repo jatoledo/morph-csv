@@ -5,12 +5,14 @@ import es.upm.fi.dia.oeg.model.CSVW;
 import es.upm.fi.dia.oeg.rmlc.api.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class RDBUtils {
     private String schema;
-
+    private static final Logger _log = LoggerFactory.getLogger(RDBUtils.class);
 
     public String  createSQLSchema(Collection<TriplesMap> triplesMaps, ArrayList<CSV> csvs, CSVW csvw){
         schema = "";
@@ -50,7 +52,7 @@ public class RDBUtils {
         for(String field : headers){
             if(checkColumnInMapping(field,tripleMap)) {
                 String datatype = null;
-                Object def=null,required=null;
+                Object def=null;
                 for (Object o : annotations) {
                     String column = CSVWUtils.getTile((JSONObject) o);
                     if (column.equals(field.trim())) {
@@ -60,9 +62,6 @@ public class RDBUtils {
                         if(((JSONObject) o).has("default")){
                             def = ((JSONObject) o).get("default");
 
-                        }
-                        if(((JSONObject) o).has("required")) {
-                            required = ((JSONObject) o).get("required");
                         }
                     }
 

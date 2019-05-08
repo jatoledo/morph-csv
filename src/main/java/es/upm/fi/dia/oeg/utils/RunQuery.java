@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class RunQuery {
 
 
-    static Logger log = LoggerFactory.getLogger(RunQuery.class.getPackage().toString());
+    static Logger log = LoggerFactory.getLogger(RunQuery.class);
     //run morph
     public static void runBatchMorph(RDB rdb){
         String configurationFile = "results/"+rdb.getName()+".r2rml.properties";

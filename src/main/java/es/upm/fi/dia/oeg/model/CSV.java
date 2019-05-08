@@ -1,7 +1,10 @@
 package es.upm.fi.dia.oeg.model;
 
 
-import com.opencsv.CSVReader;
+import com.univocity.parsers.csv.*;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
@@ -9,23 +12,23 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class CSV {
-
+    private static final Logger _log = LoggerFactory.getLogger(CSV.class);
     private String nameFile;
     private String url;
     private String parentUrl;
-    private CSVReader reader;
+    private CsvParser parser;
     private List<String[]> rows;
 
-    public CSV(String nameFile,String url, CSVReader reader) {
+    public CSV(String nameFile,String url, CsvParser parser) {
         this.nameFile = nameFile;
         this.url = url;
-        this.reader = reader;
+        this.parser = parser;
     }
 
-    public CSV(String nameFile, String url, Path csv) {
+    public CSV(String nameFile, String url, Path csv, JSONObject dialect) {
         this.nameFile = nameFile;
         this.url = url;
-        setRows(csv);
+        setRows(csv,dialect);
     }
 
     public CSV(String nameFile, List<String[]> rows){
@@ -41,10 +44,10 @@ public class CSV {
     }
 
 
-    public CSV(String nameFile, String url, URL csv) {
+    public CSV(String nameFile, String url, URL csv,JSONObject dialect) {
         this.nameFile = nameFile;
         this.url = url;
-        setRows(csv);
+        setRows(csv,dialect);
     }
 
     public String getNameFile() {
@@ -79,24 +82,35 @@ public class CSV {
         this.url = url;
     }
 
-    public void setRows (Path csv){
-
+    public void setRows (Path csv, JSONObject dialect){
+        CsvParserSettings settings = this.generateSettings(dialect);
         try {
-            this.reader = new CSVReader(new FileReader(csv.toAbsolutePath().toString()));
-            this.rows = reader.readAll();
+            this.parser = new CsvParser(settings);
+            this.rows = parser.parseAll(new FileReader(csv.toAbsolutePath().toString()));
         } catch (IOException e) {
-            e.printStackTrace();
+           _log.error("Error parsing the CSV "+csv.getFileName()+".csv: "+e.getMessage());
         }
     }
 
-    public void setRows (URL url){
+    public void setRows (URL url,JSONObject dialect){
+        CsvParserSettings settings = generateSettings(dialect);
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            this.reader = new CSVReader(reader);
-            this.rows = this.reader.readAll();
+            this.parser = new CsvParser(settings);
+            this.rows = this.parser.parseAll(new BufferedReader(new InputStreamReader(url.openStream())));
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error("Error parsing the CSV "+url.getFile()+": "+e.getMessage());
         }
+    }
+
+    private CsvParserSettings generateSettings(JSONObject dialect){
+        CsvParserSettings settings = new CsvParserSettings();
+        if(dialect!=null) {
+            if(dialect.has("delimiter"))
+                settings.getFormat().setDelimiter(dialect.getString("delimiter"));
+            if(dialect.has("skipRows"))
+                settings.setNumberOfRowsToSkip(Integer.parseInt(dialect.getString("skipRows")));
+        }
+        return settings;
     }
 
 }

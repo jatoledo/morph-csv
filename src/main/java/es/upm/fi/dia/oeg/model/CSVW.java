@@ -5,6 +5,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.jena.atlas.io.IO;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +17,7 @@ import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 public class CSVW {
-
+    private static final Logger _log = LoggerFactory.getLogger(CSVW.class);
     private String url;
     private JSONObject content;
 
@@ -54,7 +56,7 @@ public class CSVW {
         try {
             this.content = new JSONObject(Files.readAllLines(path, Charsets.toCharset("UTF-8")).toString());
         }catch (Exception e){
-            //ToDo log
+            _log.error("Error reading the CSVW content: "+e.getMessage());
         }
     }
 
@@ -64,7 +66,7 @@ public class CSVW {
             this.content= new JSONObject(IOUtils.toString(reader));
 
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            _log.error("Error reading the CSVW content: "+e.getMessage());
         }
     }
 
