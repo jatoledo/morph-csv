@@ -1,7 +1,7 @@
 {
   "@context": ["http://www.w3.org/ns/csvw"],
   "tables": [{
-    "url": "../homologene/data/homologene.data",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.data",
     "dialect": {
       "delimiter": "\t",
       "header": false
@@ -14,7 +14,7 @@
       }]
     }
   },{
-    "url": "../ncbigene/data/gene_info",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info",
     "dialect": {
       "delimiter": "\t",
       "header": true
