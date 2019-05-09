@@ -1,6 +1,7 @@
 package es.upm.fi.dia.oeg.rdb;
 
 
+import org.apache.xerces.impl.xpath.regex.RegularExpression;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ public class CSVUtils {
     public static List<String[]> generateCSVfromSeparator(String separator, String column, List<String[]> csv){
 
         String[] headers = csv.get(0);
-
         List<String[]> separatedCSV = new ArrayList<>();
         separatedCSV.add(new String[]{"id", column});
         Integer index = getIndexColumnFromHeader(headers,column);
@@ -107,9 +107,11 @@ public class CSVUtils {
     public static void putNull(List<String[]> csv, JSONObject annotations){
         String column = CSVWUtils.getTile(annotations);
         Integer index = getIndexColumnFromHeader(csv.get(0),column);
-        for(int i=1; i<csv.size();i++) {
-            if (csv.get(i)[index].equals(annotations.getString("null"))) {
-                csv.get(i)[index] = "NULL";
+        if(index!=null) {
+            for (int i = 1; i < csv.size(); i++) {
+                if (csv.get(i)[index].equals(annotations.getString("null"))) {
+                    csv.get(i)[index] = "NULL";
+                }
             }
         }
     }

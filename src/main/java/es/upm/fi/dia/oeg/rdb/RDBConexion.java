@@ -28,8 +28,8 @@ public class RDBConexion {
             Class.forName ("org.h2.Driver");
             foreignkeys = new ArrayList<>();
             try {
-               pw  = new PrintWriter("results/"+rdb+".sql", "UTF-8");
-                pw2 = new PrintWriter("results/inserts.sql","UTF-8");
+               pw  = new PrintWriter("output/"+rdb+"-schema.sql", "UTF-8");
+               pw2 = new PrintWriter("output/"+rdb+"-inserts.sql","UTF-8");
             }catch (Exception e){
 
             }

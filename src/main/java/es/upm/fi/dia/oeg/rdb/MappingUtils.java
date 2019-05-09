@@ -138,6 +138,7 @@ public class MappingUtils {
         tripleMap.append("\t\t\trml:reference \""+values+"\";\n");
         tripleMap.append("\t\t];\n\n\t];\n.");
         StringBuilder changeRmlcContet = fromObjectToRefObjectMap(rmlc.getContent(),headers,sourceUrl);
+
         changeRmlcContet.append(tripleMap.toString());
         return changeRmlcContet.toString();
 
@@ -151,6 +152,7 @@ public class MappingUtils {
 
         ArrayList<String> splitedContent = new ArrayList<>(Arrays.asList(content.split("\n")));
         boolean flag = false;
+        splitedContent.add(0,"@prefix ex: <http://www.ex.org/>.");
         for(int i=0; i<splitedContent.size();i++){
             if(splitedContent.get(i).matches(".*"+sourceUrl+".*")){
                 flag= true;

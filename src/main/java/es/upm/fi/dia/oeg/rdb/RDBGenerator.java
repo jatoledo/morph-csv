@@ -68,6 +68,16 @@ public class RDBGenerator {
             JSONArray newAnnotations = new JSONArray();
             List<String[]> newCSV = new ArrayList<>();
             for(Object c : columns){
+                if(((JSONObject) c).has("null")){
+                    for(CSV csv: csvs) {
+                        if(csv.getUrl().equals(csvURL)){
+                            CSVUtils.putNull(csv.getRows(),(JSONObject) c);
+                        }
+                        else if(csv.getParentUrl()!=null && csv.getParentUrl().equals(csvURL)){
+                            CSVUtils.putNull(csv.getRows(),(JSONObject) c);
+                        }
+                    }
+                }
                 if(((JSONObject) c).has("separator")){
                     //create a new csv
                     String separator = ((JSONObject) c).getString("separator");
@@ -92,16 +102,7 @@ public class RDBGenerator {
                     }
                     csvs.add(new CSV(column,column+".csv",csvURL,newCSV));
                 }
-                if(((JSONObject) c).has("null")){
-                    for(CSV csv: csvs) {
-                        if(csv.getUrl().equals(csvURL)){
-                            CSVUtils.putNull(csv.getRows(),(JSONObject) c);
-                        }
-                        else if(csv.getParentUrl()!=null && csv.getParentUrl().equals(csvURL)){
-                            CSVUtils.putNull(csv.getRows(),(JSONObject) c);
-                        }
-                    }
-                }
+
                 if(((JSONObject) c).has("datatype")){
                     String datatype = CSVWUtils.getDatatype((JSONObject) c);
                     String format = CSVWUtils.getFormat((JSONObject) c);

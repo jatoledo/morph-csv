@@ -1,7 +1,7 @@
 {
   "@context": ["http://www.w3.org/ns/csvw"],
   "tables": [{
-    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.data",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.csv",
     "dialect": {
       "delimiter": "\t",
       "header": false
@@ -59,7 +59,7 @@
         "null": "-"
       },{
         "titles": "Other_designations",
-        "separator": "|",
+        "separator": "\\|",
         "null": "-"
       },{
         "titles": "Modification_date",
