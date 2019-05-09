@@ -41,7 +41,7 @@ public class RDBUtils {
         else
             headers = csv.getRows().get(0);
 
-        ArrayList<String> primaryKeys = m.getPrimaryKeys(tripleMap.getSubjectMap());
+        ArrayList<String> primaryKeys = m.getPrimaryKeys(tripleMap,csvw);
         String sourceUrl = ((Source)tripleMap.getLogicalSource()).getSourceName();
         HashMap<String,ArrayList<String>> foreignKeys = m.getForeignKeys(tripleMap);
         JSONArray annotations = CSVWUtils.getAnnotationsFromSource(csvw.getContent().getJSONArray("tables"),csv);

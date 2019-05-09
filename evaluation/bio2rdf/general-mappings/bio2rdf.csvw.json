@@ -11,7 +11,8 @@
       "columns": [{
         "titles": "genesymbol",
         "null": ""
-      }]
+      }],
+      "primaryKey": "hid,ncbigene"
     }
   },{
     "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info",
@@ -66,7 +67,7 @@
         "null": "-",
         "datatype": {
           "base": "date",
-          "format": "YYYYMMDD"
+          "format": "yyyyMMdd"
         }
       },{
         "titles": "Feature_type",

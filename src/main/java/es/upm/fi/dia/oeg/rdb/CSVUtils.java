@@ -19,10 +19,13 @@ public class CSVUtils {
         Integer id =0;
         for (int i=1;i<csv.size();i++){
             String[] data = csv.get(i)[index].split(separator);
-            for(String d : data){
-                separatedCSV.add(new String[]{Integer.toString(id),d});
+            if(data.length>0 && !data[0].equals("NULL")) {
+                for (String d : data) {
+                    separatedCSV.add(new String[]{Integer.toString(id), d});
+                }
+                id++;
             }
-            id++;
+
         }
 
 
@@ -37,8 +40,10 @@ public class CSVUtils {
         for(int i=0; i<csv.size() ;i++){
             String[] row = csv.get(i);
             if(i!=0) {
-                row[index] = Integer.toString(fkid);
-                fkid++;
+                if(!row[index].equals("NULL")) {
+                    row[index] = Integer.toString(fkid);
+                    fkid++;
+                }
             }
             else {
                 row[index] = row[index]+"_J";

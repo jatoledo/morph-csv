@@ -49,7 +49,7 @@ public class RDBConexion {
             createTables(tables,rdb);
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
-            _log.info("The "+rdb+" has been indexed in H2 successfully in: "+elapsedTime+"ms");
+            _log.info("The "+rdb+" has been created in H2 successfully in: "+elapsedTime+"ms");
         }catch (Exception e ){
             _log.error("Error connecting with H2: "+e.getMessage());
         }
@@ -58,7 +58,7 @@ public class RDBConexion {
     private void createTables(String tables, String rdb){
         try {
             Class.forName ("org.h2.Driver");
-            Connection c = DriverManager.getConnection("jdbc:h2:./"+rdb+";AUTO_SERVER=TRUE", "sa", "");
+            Connection c = DriverManager.getConnection("jdbc:h2:./output/"+rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s=c.createStatement();
             String[] st = tables.split("\n");
             for(String saux : st) {
@@ -94,8 +94,9 @@ public class RDBConexion {
         try {
 
             Class.forName ("org.h2.Driver");
-            Connection c = DriverManager.getConnection("jdbc:h2:./"+rdb+";AUTO_SERVER=TRUE", "sa", "");
+            Connection c = DriverManager.getConnection("jdbc:h2:./output/"+rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s=c.createStatement();
+            String inserts="",totalInserts="";
             for(int i=1; i<rows.size();i++){
                 StringBuilder insert = new StringBuilder();
                 insert.append("INSERT INTO "+table+" ");
@@ -108,14 +109,36 @@ public class RDBConexion {
                         else if(rows.get(i)[j].equals("NULL")){
                             insert.append("NULL,");
                         }
-                        else
-                            insert.append("'"+rows.get(i)[j]+"',");
+                        else {
+                            insert.append("'" + rows.get(i)[j].replace("'","''") + "',");
+                        }
                 }
-                String exec = insert.substring(0,insert.length()-1)+");";
-                s.execute(exec);
-                pw2.println(exec);
+                String exec = insert.substring(0,insert.length()-1)+");\n";
+                inserts+=exec;
+                if(i%5000==0){
+                    _log.info("Inserting 5000 instances in "+table+"...");
+                    totalInserts += inserts;
+                    long startTime = System.currentTimeMillis();
+                    s.execute(inserts);
+                    long stopTime = System.currentTimeMillis();
+                    long elapsedTime = stopTime - startTime;
+                    _log.info("The instances have been indexed in H2 successfully in: "+elapsedTime+"ms");
+                    inserts="";
+                }
                 //System.out.println(exec);
             }
+            _log.info("Inserting last instances in "+table+"...");
+            long startTime = System.currentTimeMillis();
+            s.execute(inserts);
+            long stopTime = System.currentTimeMillis();
+            long elapsedTime = stopTime - startTime;
+            _log.info("The instances have been indexed in H2 successfully in: "+elapsedTime+"ms");
+            totalInserts+=inserts;
+             startTime = System.currentTimeMillis();
+            pw2.println(totalInserts);
+            stopTime = System.currentTimeMillis();
+            elapsedTime = stopTime - startTime;
+            _log.info("The instances have been printed at output file in: "+elapsedTime+"ms");
             s.close();c.close();
 
         }catch (Exception e){
@@ -126,7 +149,7 @@ public class RDBConexion {
     public void addForeignKeys(String rdb){
         try {
             Class.forName("org.h2.Driver");
-            Connection c = DriverManager.getConnection("jdbc:h2:./" + rdb+";AUTO_SERVER=TRUE", "sa", "");
+            Connection c = DriverManager.getConnection("jdbc:h2:./output" + rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s = c.createStatement();
             for(String f: foreignkeys) {
                 s.execute(f);
@@ -142,7 +165,7 @@ public class RDBConexion {
     public void updateDataWithFunctions (HashMap<String,HashMap<String,String>> functions, String rdb, boolean index){
         long startTime = System.currentTimeMillis();
         try {
-            Connection c = DriverManager.getConnection("jdbc:h2:./"+rdb+";AUTO_SERVER=TRUE", "sa", "");
+            Connection c = DriverManager.getConnection("jdbc:h2:./output"+rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s = c.createStatement();
             for(Map.Entry<String,HashMap<String,String>> entry : functions.entrySet()){
                 String table_name = entry.getKey();

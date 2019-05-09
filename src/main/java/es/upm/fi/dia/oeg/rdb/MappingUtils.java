@@ -1,8 +1,11 @@
 package es.upm.fi.dia.oeg.rdb;
 
+import es.upm.fi.dia.oeg.model.CSVW;
 import es.upm.fi.dia.oeg.model.RMLCMapping;
 import es.upm.fi.dia.oeg.rmlc.api.model.*;
 import org.apache.commons.rdf.api.RDFTerm;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -39,15 +42,26 @@ public class MappingUtils {
         return subjectMapColumns;
     }*/
 
-    public ArrayList<String> getPrimaryKeys(SubjectMap s){
+    public ArrayList<String> getPrimaryKeys(TriplesMap s, CSVW csvw){
         ArrayList<String> primaryKeys = new ArrayList<>();
 
-        if(s.getColumn()!=null){
-            primaryKeys.add(s.getColumn());
+        JSONArray tables = csvw.getContent().getJSONArray("tables");
+
+        for(Object j : tables){
+            if(((JSONObject) j).getString("url").equals(((Source)s.getLogicalSource()).getSourceName())){
+                if(((JSONObject) j).getJSONObject("tableSchema").has("primaryKey")){
+                    primaryKeys = new ArrayList<>(Arrays.asList(((JSONObject) j).getJSONObject("tableSchema").getString("primaryKey").split(",")));
+
+                }
+            }
         }
-        else if(s.getTemplateString()!=null){
-            for(String t : s.getTemplate().getColumnNames()){
-                primaryKeys.add(t);
+        if(primaryKeys.size()==0) {
+            if (s.getSubjectMap().getColumn() != null) {
+                primaryKeys.add(s.getSubjectMap().getColumn());
+            } else if (s.getSubjectMap().getTemplateString() != null) {
+                for (String t : s.getSubjectMap().getTemplate().getColumnNames()) {
+                    primaryKeys.add(t);
+                }
             }
         }
         return primaryKeys;

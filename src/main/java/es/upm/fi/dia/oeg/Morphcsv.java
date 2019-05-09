@@ -41,7 +41,7 @@ public class Morphcsv
        String configPath = commandLine.getOptionValue("c");
        JSONArray config = Utils.readConfiguration(configPath);
        for(Object aux : config){
-           JSONObject c = (JSONObject) aux;
+           /*JSONObject c = (JSONObject) aux;
            Dataset dataset = new Dataset(c.get("csvw").toString(),c.get("yarrrml").toString());
            _log.info("Translating YARRRML mapping to RMLC...");
 
@@ -52,7 +52,7 @@ public class Morphcsv
            //generate RDB
            _log.info("Generating the schema of the RDB");
            RDBGenerator rdbGenerator = new RDBGenerator(dataset);
-           dataset.setRdb(rdbGenerator.generateSchemaRDB());
+           dataset.setRdb(rdbGenerator.generateSchemaRDB(c.get("db").toString()));
            //load RDB
            rdbGenerator.generateRDB();
            //generate R2RML
@@ -61,12 +61,12 @@ public class Morphcsv
            rmlc2R2RML.generateR2RML(dataset.getRmlcMappingY(), dataset.getRdb().getName());
            dataset.setR2rmlMapping(rmlc2R2RML.getR2RML());
            //execute query
-           _log.info("Executing query with morph-rdb");
+           _log.info("Executing query with morph-rdb");*/
            if(commandLine.hasOption("q")){
-               RunQuery.runQueryMorph(dataset.getRdb(),commandLine.getOptionValue("q"));
+              // RunQuery.runQueryMorph(dataset.getRdb(),commandLine.getOptionValue("q"));
            }
            else{
-              RunQuery.runBatchMorph(dataset.getRdb());
+              RunQuery.runBatchMorph(new RDB("bio2rdf",""));
            }
         }
     }

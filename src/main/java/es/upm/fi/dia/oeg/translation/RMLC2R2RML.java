@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class RMLC2R2RML {
         });
         try {
             BufferedWriter writer = new BufferedWriter
-                    (new OutputStreamWriter(new FileOutputStream("results/"+rdbName+".r2rml.ttl"), StandardCharsets.UTF_8));
+                    (new OutputStreamWriter(new FileOutputStream("output/"+rdbName+".r2rml.ttl"), StandardCharsets.UTF_8));
             writer.write(r2rml);
             writer.close();
         }catch (Exception e){
@@ -65,7 +66,7 @@ public class RMLC2R2RML {
                 +"\\\"\"; \n\t];\n";
     }
 
-    private String createSubjectMap(SubjectMap subjectMap,String c){
+    private String createSubjectMap(SubjectMap subjectMap, ArrayList<String> c){
         String subject="\trr:subjectMap [ \n";
 
         if(!subjectMap.getTemplateString().isEmpty()){
@@ -81,23 +82,28 @@ public class RMLC2R2RML {
         for(IRI iri : subjectMap.getClasses()){
             subject += "\t\trr:class <"+ iri.getIRIString() +">;\n";
         }
-        if(c!=null){
-            subject += "\t\trr:class "+ c +";\n";
+        if(c!=null && !c.isEmpty()){
+            for(String t : c)
+                subject += "\t\trr:class "+ t +";\n";
         }
 
         return subject+"\t];\n";
     }
 
-    private String createPredicatesObjectMaps(List<PredicateObjectMap> predicateObjectMaps,String c){
+    private String createPredicatesObjectMaps(List<PredicateObjectMap> predicateObjectMaps,ArrayList<String> c){
         String predicates="";
         for(PredicateObjectMap predicateObjectMap : predicateObjectMaps){
             boolean flag=false;
-            for(PredicateMap predicateMap : predicateObjectMap.getPredicateMaps()){
-                if(!predicateMap.getConstant().ntriplesString().equals("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>")) {
+            for(int i=0; i<predicateObjectMap.getPredicateMaps().size(); i++){
+                PredicateMap predicateMap = predicateObjectMap.getPredicateMap(i);
+                ObjectMap objectMap = predicateObjectMap.getObjectMap(0);
+                if(!predicateMap.getConstant().ntriplesString().equals("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") || (
+                        predicateMap.getConstant().ntriplesString().equals("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") && objectMap.getConstant()==null)) {
                     predicates +="\trr:predicateObjectMap [ \n";
                     predicates +="\t\trr:predicateMap [ rr:constant "+predicateMap.getConstant().ntriplesString()+" ];\n";
                     flag=true;
                 }
+
             }
             if(flag) {
                 for (ObjectMap objectMap : predicateObjectMap.getObjectMaps()) {
@@ -118,7 +124,7 @@ public class RMLC2R2RML {
         return predicates;
     }
 
-    private String createObjectMap (ObjectMap objectMap, List<PredicateMap> predicateMaps, String c){
+    private String createObjectMap (ObjectMap objectMap, List<PredicateMap> predicateMaps, ArrayList<String> c){
         String reference = "";
         if(objectMap.getFunction()!=null && !objectMap.getFunction().isEmpty()){
             for(PredicateMap p: predicateMaps) {
@@ -146,8 +152,10 @@ public class RMLC2R2RML {
             reference +="\t\trr:objectMap[\n\t\t\trr:template \""+objectMap.getTemplateString()+"\";\n\t\t];\n";
         }
         if(objectMap.getConstant()!=null && !objectMap.getConstant().ntriplesString().isEmpty()){
-            if(!objectMap.getConstant().ntriplesString().equals(c))
-                reference +="\t\trr:objectMap[\n\t\t\trr:constant "+objectMap.getConstant().ntriplesString()+";\n\t\t];\n";
+            for(String t: c) {
+                if (!objectMap.getConstant().ntriplesString().equals(t))
+                    reference += "\t\trr:objectMap[\n\t\t\trr:constant " + objectMap.getConstant().ntriplesString() + ";\n\t\t];\n";
+            }
         }
         return reference;
 
@@ -195,8 +203,8 @@ public class RMLC2R2RML {
     }
 
 
-    private String getClassFromMap(List<PredicateObjectMap> pom){
-        String c=null;
+    private ArrayList getClassFromMap(List<PredicateObjectMap> pom){
+        ArrayList <String> c=new ArrayList<>();
         for(PredicateObjectMap po: pom){
             boolean flag = false;
             for(PredicateMap p : po.getPredicateMaps()){
@@ -205,7 +213,9 @@ public class RMLC2R2RML {
                 }
             }
             if(flag){
-                c = po.getObjectMaps().get(0).getConstant().ntriplesString();
+                if(po.getObjectMaps().get(0).getConstant()!=null) {
+                    c.add(po.getObjectMaps().get(0).getConstant().ntriplesString());
+                }
             }
         }
         return c;

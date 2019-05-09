@@ -29,11 +29,11 @@ public class RDBGenerator {
        csvs = d.getCsvFiles();
     }
 
-    public RDB generateSchemaRDB(){
+    public RDB generateSchemaRDB(String name){
 
         normalize();
         String schema=createTables();
-        rdb = new RDB("db",schema);
+        rdb = new RDB(name,schema);
         return rdb;
     }
 

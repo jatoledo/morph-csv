@@ -32,7 +32,7 @@ mappings:
       - [ncbiv:dbxref, $(dbXrefs)]
       - [ncbiv:chromosome, $(chromosome)]
       - [ncbiv:map-location, $(map_location)]
-      - [ncbiv:nomenclature-authority, $(Symbol_from_nomeclature_authority)]
+      - [ncbiv:nomenclature-authority, $(Symbol_from_nomenclature_authority)]
       - [ncbiv:nomenclature-authority-fullname, $(Full_name_from_nomenclature_authority)]
       - [ncbiv:nomenclature-status, $(Nomenclature_status)]
       - [ncbiv:other-designations, $(Other_designations)]

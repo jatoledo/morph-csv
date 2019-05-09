@@ -2,7 +2,8 @@
   "sources":[
     {
       "csvw":"./evaluation/bio2rdf/general-mappings/bio2rdf.csvw.json",
-      "yarrrml": "./evaluation/bio2rdf/general-mappings/bio2rdf.yml"
+      "yarrrml": "./evaluation/bio2rdf/general-mappings/bio2rdf.yml",
+      "db": "bio2rdf"
     }
   ]
 }
