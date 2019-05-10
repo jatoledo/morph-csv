@@ -15,7 +15,7 @@
       "primaryKey": "hid,ncbigene"
     }
   },{
-    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info",
+    "url": "/home/dchaves/morph-csv/morph-csv/evaluation/bio2rdf/ncbigene/data/gene_info",
     "dialect": {
       "delimiter": "\t",
       "header": true

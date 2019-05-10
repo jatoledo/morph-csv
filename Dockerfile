@@ -6,9 +6,7 @@ RUN mkdir /configs
 RUN mkdir /queries
 COPY . /morphcsv
 
-RUN cd /morphcsv
-RUN mvn clean compile assembly:single
-RUN cp target/morph-csv-1.0-jar-with-dependencies.jar morph-csv.jar
+RUN cd /morphcsv && mvn clean compile assembly:single && cp target/morph-csv-1.0-jar-with-dependencies.jar morph-csv.jar
 
 
 CMD ["tail", "-f", "/dev/null"]
