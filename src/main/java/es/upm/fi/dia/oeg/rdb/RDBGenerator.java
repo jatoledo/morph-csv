@@ -188,6 +188,7 @@ public class RDBGenerator {
     public void generateRDB(){
 
         _log.info("Creating the RDB");
+        long startTime = System.currentTimeMillis();
         RDBConexion rdbConexion = new RDBConexion(rdb.getName());
         rdbConexion.createDatabase(rdb.getName(),rdb.getContent());
         HashMap<String,HashMap<String,String>> functions = new HashMap<>();
@@ -226,6 +227,9 @@ public class RDBGenerator {
         rdbConexion.updateDataWithFunctions(functions,rdb.getName(),false);
         rdbConexion.updateDataWithFunctions(joinFunctions,rdb.getName(),true);
         rdbConexion.close();
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        _log.info("Total time of creation: "+elapsedTime+"ms");
     }
 
 

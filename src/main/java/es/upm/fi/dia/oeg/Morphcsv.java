@@ -32,7 +32,7 @@ public class Morphcsv
         org.apache.log4j.BasicConfigurator.configure();
         CommandLine commandLine = CommandLineProcessor.parseArguments(args);
 
-        if(commandLine.getOptions().length < 1 || commandLine.getOptions().length > 3 ){
+        if(commandLine.getOptions().length < 1 || commandLine.getOptions().length > 2 ){
             CommandLineProcessor.displayHelp();
         }
 
@@ -41,7 +41,7 @@ public class Morphcsv
        String configPath = commandLine.getOptionValue("c");
        JSONArray config = Utils.readConfiguration(configPath);
        for(Object aux : config){
-           /*JSONObject c = (JSONObject) aux;
+           JSONObject c = (JSONObject) aux;
            Dataset dataset = new Dataset(c.get("csvw").toString(),c.get("yarrrml").toString());
            _log.info("Translating YARRRML mapping to RMLC...");
 
@@ -61,12 +61,14 @@ public class Morphcsv
            rmlc2R2RML.generateR2RML(dataset.getRmlcMappingY(), dataset.getRdb().getName());
            dataset.setR2rmlMapping(rmlc2R2RML.getR2RML());
            //execute query
-           _log.info("Executing query with morph-rdb");*/
+
            if(commandLine.hasOption("q")){
-              // RunQuery.runQueryMorph(dataset.getRdb(),commandLine.getOptionValue("q"));
+               _log.info("Executing query with morph-rdb");
+               RunQuery.runQueryMorph(dataset.getRdb(),commandLine.getOptionValue("q"));
            }
            else{
-              RunQuery.runBatchMorph(new RDB("bio2rdf",""));
+               _log.info("Executing materialization with morph-rdb");
+              RunQuery.runBatchMorph(dataset.getRdb());
            }
         }
     }

@@ -149,7 +149,7 @@ public class RDBConexion {
     public void addForeignKeys(String rdb){
         try {
             Class.forName("org.h2.Driver");
-            Connection c = DriverManager.getConnection("jdbc:h2:./output" + rdb+";AUTO_SERVER=TRUE", "sa", "");
+            Connection c = DriverManager.getConnection("jdbc:h2:./output/" + rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s = c.createStatement();
             for(String f: foreignkeys) {
                 s.execute(f);
@@ -165,7 +165,7 @@ public class RDBConexion {
     public void updateDataWithFunctions (HashMap<String,HashMap<String,String>> functions, String rdb, boolean index){
         long startTime = System.currentTimeMillis();
         try {
-            Connection c = DriverManager.getConnection("jdbc:h2:./output"+rdb+";AUTO_SERVER=TRUE", "sa", "");
+            Connection c = DriverManager.getConnection("jdbc:h2:./output/"+rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s = c.createStatement();
             for(Map.Entry<String,HashMap<String,String>> entry : functions.entrySet()){
                 String table_name = entry.getKey();
