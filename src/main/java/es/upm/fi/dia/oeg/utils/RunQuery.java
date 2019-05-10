@@ -37,10 +37,10 @@ public class RunQuery {
         String configurationFile = "output/"+rdb.getName()+".r2rml.properties";
         setProperties(rdb,query);
         try {
-            //MorphRDBRunnerFactory runnerFactory = new MorphRDBRunnerFactory();
-            //MorphBaseRunner runner = runnerFactory.createRunner(".",configurationFile);
-            //runner.run();
-            //log.info("Evaluation query correctly");
+            MorphRDBRunnerFactory runnerFactory = new MorphRDBRunnerFactory();
+            MorphBaseRunner runner = runnerFactory.createRunner(".",configurationFile);
+            runner.run();
+            log.info("Evaluation query correctly");
         } catch(Exception e) {
             e.printStackTrace();
             log.info("Error occured: " + e.getMessage());
@@ -63,9 +63,6 @@ public class RunQuery {
             writer.println("database.pwd[0]=");
             writer.println("database.type[0]=h2");
 
-            writer.close();
-            writer = new PrintWriter("output/runMorph.sh","UTF-8");
-            writer.println("java -cp .:morph-rdb.jar:dependency/* es.upm.fi.dia.oeg.morph.r2rml.rdb.engine.MorphRDBRunner . "+rdb.getName()+".r2rml.properties");
             writer.close();
         }catch (Exception e ){
             log.info("Error writing the resources for morph-rdb...");

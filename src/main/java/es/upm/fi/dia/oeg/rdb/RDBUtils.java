@@ -98,7 +98,7 @@ public class RDBUtils {
 
 
         table+=");\n";
-        System.out.println(table);
+        //System.out.println(table);
         return table;
     }
 

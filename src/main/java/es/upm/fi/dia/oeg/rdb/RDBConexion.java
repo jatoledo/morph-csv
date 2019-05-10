@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.sql.*;
 
@@ -14,6 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class RDBConexion {
 
@@ -95,9 +97,59 @@ public class RDBConexion {
 
             Class.forName ("org.h2.Driver");
             Connection c = DriverManager.getConnection("jdbc:h2:./output/"+rdb+";AUTO_SERVER=TRUE", "sa", "");
-            Statement s=c.createStatement();
-            String inserts="",totalInserts="";
-            for(int i=1; i<rows.size();i++){
+
+            //String inserts="",totalInserts="";
+            _log.info("Executing inserts for table: "+table);
+            long startTime = System.currentTimeMillis();
+            List<String[]> rowsWithoutHeader = rows.subList(1,rows.size());
+            ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            try {
+                for (final Object o : rowsWithoutHeader) {
+                    exec.submit(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            // do stuff with o.
+                            String[] r = (String[]) o;
+                            StringBuilder insert = new StringBuilder();
+                            insert.append("INSERT INTO "+table+" ");
+                            insert.append("VALUES(");
+                            for(int j=0;j<r.length;j++){
+                                if(RDBUtils.checkColumnInMapping(rows.get(0)[j],tp))
+                                    if(r[j].equals("")){
+                                        insert.append("'',");
+                                    }
+                                    else if(r[j].equals("NULL")){
+                                        insert.append("NULL,");
+                                    }
+                                    else {
+                                        insert.append("'" + r[j].replace("'","''") + "',");
+                                    }
+                            }
+                            String e = insert.substring(0,insert.length()-1)+");";
+
+                            try {
+                                c.createStatement().execute(e);
+                            }catch (SQLException exception){
+                                _log.error("Error inserting the instances: "+exception.getLocalizedMessage());
+                            }
+                        }
+                    });
+                }
+            } finally {
+                exec.shutdown();
+            }
+
+            try {
+                exec.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            } catch (InterruptedException e) {
+                _log.error("Error waiting for indexing of the instances of "+table+": "+e.getLocalizedMessage());
+            }
+            long stopTime = System.currentTimeMillis();
+            long elapsedTime = stopTime - startTime;
+            _log.info("The instances of "+table+" have been indexed in H2 successfully in: "+elapsedTime+"ms");
+
+           /* for(int i=1; i<rows.size();i++){
                 StringBuilder insert = new StringBuilder();
                 insert.append("INSERT INTO "+table+" ");
                 insert.append("VALUES(");
@@ -138,8 +190,8 @@ public class RDBConexion {
             pw2.println(totalInserts);
             stopTime = System.currentTimeMillis();
             elapsedTime = stopTime - startTime;
-            _log.info("The instances have been printed at output file in: "+elapsedTime+"ms");
-            s.close();c.close();
+            _log.info("The instances have been printed at output file in: "+elapsedTime+"ms");*/
+
 
         }catch (Exception e){
             _log.error("Error creating the tables in the rdb "+rdb+": "+e.getMessage());
