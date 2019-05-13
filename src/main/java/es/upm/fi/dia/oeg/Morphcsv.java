@@ -62,9 +62,9 @@ public class Morphcsv
            dataset.setR2rmlMapping(rmlc2R2RML.getR2RML());
            //execute query
 
-           if(commandLine.hasOption("q")){
+           if(c.has("query")){
                _log.info("Executing query with morph-rdb");
-               RunQuery.runQueryMorph(dataset.getRdb(),commandLine.getOptionValue("q"));
+               RunQuery.runQueryMorph(dataset.getRdb(),c.getString("query"));
            }
            else{
                _log.info("Executing materialization with morph-rdb");

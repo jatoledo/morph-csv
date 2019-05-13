@@ -2,7 +2,7 @@
   "@context": ["http://www.w3.org/ns/csvw"],
   "tables": [
   {
-    "url": "../data/stops_transport_1.csv",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/stops_transport_1.csv",
     "tableSchema": {
       "aboutUrl": "{_row}", 
       "primaryKey": "stop_id", 
@@ -70,7 +70,7 @@
      }
   },
   {
-    "url": "../data/stops_transport_2.csv",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/stops_transport_2.csv",
     "tableSchema": {
       "aboutUrl": "{_row}", 
       "primaryKey": "stop_id", 
@@ -138,7 +138,7 @@
      }      
   },
   {
-    "url": "../data/museums.csv",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/museums.csv",
     "tableSchema": {
       "aboutUrl": "{_row}",
       "columns": [

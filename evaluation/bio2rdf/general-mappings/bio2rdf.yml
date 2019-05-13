@@ -16,7 +16,7 @@ prefixes:
 mappings:
   TMncbigene-gene_info:
     sources:
-      - [/home/dchaves/morph-csv/morph-csv/evaluation/bio2rdf/ncbigene/data/gene_info~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]

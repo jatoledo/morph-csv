@@ -18,7 +18,7 @@ prefixes:
 mappings:
   stops_transport_1:
     sources:
-      - [../data/stops_transport_1.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/stops_transport_1.csv~csv]
     s: http://linkedgtfs.com/CITY/stops-transport-1/$(stop_id)
     po:
       - [a,gtfs:Stop]
@@ -177,7 +177,7 @@ mappings:
                             - [str4, "c"]
   stops_transport_2:
     sources:
-      - [../data/stops_transport_2.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/stops_transport_2.csv~csv]
     s: http://linkedgtfs.com/CITY/stops-transport-2/$(stop_id)
     po:
       - [a,gtfs:Stop]
@@ -194,7 +194,7 @@ mappings:
       - [gtfs:weelchairAccessible,$(wheelchair_boarding)]
   museums:
     sources:
-      - [../data/museums.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/museums.csv~csv]
     s: http://linkedgtfs.com/CITY/museums/$(PK)
     po:
       - [a,schema:Museum]
@@ -202,7 +202,7 @@ mappings:
       - [ex:transport,$(TRANSPORTE)]
   sport_centers:
     sources:
-      - [../data/sport_center.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/sport_center.csv~csv]
     s: http://linkedgtfs.com/CITY/sport-centers/$(PK)
     po:
       - [a,schema:SportCenter]

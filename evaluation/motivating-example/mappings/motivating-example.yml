@@ -13,7 +13,7 @@ prefixes:
 mappings:
   publication:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/motivating-example/data/comments.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/motivating-example/data/comments.csv~csv]
     s: http://ex.org/Comment/$(date)$(username)$(comment)
     po: 
       - [a, schema:SocialMediaPosting]
@@ -45,7 +45,7 @@ mappings:
                             - [sql:valueParameter2, $(ln1), o]
   country:
     sources: 
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/motivating-example/data/people.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/motivating-example/data/people.csv~csv]
     s: http://ex.org/country/$(cName)
     po:
       - [a, schema:Country]
@@ -53,7 +53,7 @@ mappings:
 
   person:
     sources: 
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/motivating-example/data/people.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/motivating-example/data/people.csv~csv]
     s: http://ex.org/Person/$(name)$(ln1)
     po:
       - [a, schema:Person]

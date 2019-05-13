@@ -3,6 +3,7 @@ FROM ubuntu:18.04
 RUN apt-get update && apt-get install -y openjdk-8-jdk nano less git maven
 RUN mkdir /morphcsv
 RUN mkdir /configs
+RUN mkdir /morphcsv/output
 RUN mkdir /queries
 COPY . /morphcsv
 
