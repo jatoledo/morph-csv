@@ -52,7 +52,7 @@ public class RunQuery {
             PrintWriter writer = new PrintWriter("output/"+rdb.getName() + ".r2rml.properties", "UTF-8");
             writer.println("mappingdocument.file.path=output/"+ rdb.getName() + ".r2rml.ttl");
             if(query!=null)
-                writer.println("query.file.path=output/" + query);
+                writer.println("query.file.path=" + query);
             writer.println("output.file.path=output/" + rdb.getName() + "-query-result.xml");
 
             writer.println("database.name[0]=" + rdb.getName());
