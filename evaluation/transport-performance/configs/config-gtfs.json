@@ -1,8 +1,8 @@
 {
   "sources":[
     {
-      "csvw":"./mappings/gtfs-annotations.json",
-      "yarrrml": "./mappings/gtfs.yml"
+      "csvw":"./evaluation/transport-performance/mappings/gtfs-annotations.json",
+      "yarrrml": "./evaluation/transport-performance/mappings/gtfs.yml"
     }
   ]
 }

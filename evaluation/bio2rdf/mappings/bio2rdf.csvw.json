@@ -1,7 +1,7 @@
 {
   "@context": ["http://www.w3.org/ns/csvw"],
   "tables": [{
-    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.csv",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/homologene/data/homologene.csv",
     "dialect": {
       "delimiter": "\t",
       "header": false
@@ -15,7 +15,7 @@
       "primaryKey": "hid,ncbigene"
     }
   },{
-    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/ncbigene/data/gene_info",
     "dialect": {
       "delimiter": "\t",
       "header": true

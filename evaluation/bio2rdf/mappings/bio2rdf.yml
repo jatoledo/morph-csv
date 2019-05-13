@@ -16,7 +16,7 @@ prefixes:
 mappings:
   TMncbigene-gene_info:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/ncbigene/data/gene_info~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/ncbigene/data/gene_info~csv]
     s: http://bio2rdf.org/ncbigene:$(GeneID)
     po:
       - [rdf:type, ncbiv:Resource]
@@ -40,7 +40,7 @@ mappings:
 
   TMhomologene:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/homologene/data/homologene.csv~csv]
+      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/homologene/data/homologene.csv~csv]
     s: http://bio2rdf.org/homologene:$(hid)
     po:
       - [rdf:type, homogv:Resource]
