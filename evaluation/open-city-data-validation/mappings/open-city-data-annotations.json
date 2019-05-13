@@ -157,7 +157,7 @@
      ]}
   },
   {
-    "url": "../data/sport_center.csv",
+    "url": "https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/open-city-data-validation/data/sport_center.csv",
     "tableSchema": {
       "aboutUrl": "{_row}",
       "columns": [
