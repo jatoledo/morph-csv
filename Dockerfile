@@ -8,6 +8,6 @@ RUN mkdir /queries
 COPY . /morphcsv
 
 RUN cd /morphcsv && mvn clean compile assembly:single && cp target/morph-csv-1.0-jar-with-dependencies.jar morph-csv.jar
-
+RUN cp /morphcsv/run.sh /run.sh
 
 CMD ["tail", "-f", "/dev/null"]
