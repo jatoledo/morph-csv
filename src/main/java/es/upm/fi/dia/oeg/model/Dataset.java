@@ -107,7 +107,7 @@ public class Dataset {
             String name = (logicalSource.split("/"))[(logicalSource.split("/")).length-1].replace(".csv","");
             JSONObject annotations = CSVWUtils.getCSVWFromSource(csvw.getContent().getJSONArray("tables"),logicalSource);
             JSONObject dialect =null;
-            if(annotations.has("dialect")) {
+            if(annotations!=null && annotations.has("dialect")) {
                 dialect = annotations.getJSONObject("dialect");
             }
             if(logicalSource.matches("http[s]://.*")){
