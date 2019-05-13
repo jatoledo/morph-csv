@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+morph-csv.iml
+example.log
+morph-csv.jar
+output/
