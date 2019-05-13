@@ -97,6 +97,7 @@ public class CSV {
         try {
             this.parser = new CsvParser(settings);
             this.rows = this.parser.parseAll(new BufferedReader(new InputStreamReader(url.openStream())));
+            changeEmptyValues();
         } catch (IOException e) {
             _log.error("Error parsing the CSV "+url.getFile()+": "+e.getMessage());
         }
@@ -110,7 +111,19 @@ public class CSV {
             if(dialect.has("skipRows"))
                 settings.setNumberOfRowsToSkip(Integer.parseInt(dialect.getString("skipRows")));
         }
+        settings.setEmptyValue("");
         return settings;
+    }
+
+    private void changeEmptyValues(){
+
+        for(int j =0; j<rows.size();j++){
+            for(int i=0; i<rows.get(j).length;i++){
+                if(rows.get(j)[i]==null){
+                    rows.get(j)[i]="";
+                }
+            }
+        }
     }
 
 }
