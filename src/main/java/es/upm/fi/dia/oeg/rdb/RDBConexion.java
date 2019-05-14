@@ -130,6 +130,7 @@ public class RDBConexion {
 
                             try {
                                 c.createStatement().execute(e);
+                                pw2.println(e);
                             }catch (SQLException exception){
                                 _log.error("Error inserting the instances: "+exception.getLocalizedMessage());
                             }
@@ -142,6 +143,7 @@ public class RDBConexion {
 
             try {
                 exec.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+
             } catch (InterruptedException e) {
                 _log.error("Error waiting for indexing of the instances of "+table+": "+e.getLocalizedMessage());
             }

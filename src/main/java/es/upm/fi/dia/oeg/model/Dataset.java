@@ -28,6 +28,10 @@ public class Dataset {
     private static final Logger _log = LoggerFactory.getLogger(Dataset.class);
 
 
+    public Dataset (String rdbName){
+        rdb = new RDB(rdbName,"");
+    }
+
     public Dataset (CSVW csvw, YarrrmlMapping yarrrmlMapping){
         this.yarrrmlMapping = yarrrmlMapping;
         this.csvw = csvw;

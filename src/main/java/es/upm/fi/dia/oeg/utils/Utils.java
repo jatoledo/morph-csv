@@ -8,6 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Utils {
 
@@ -24,6 +31,25 @@ public class Utils {
         }
 
         return jsonObject.getJSONArray("sources");
+    }
+
+    public static boolean checkRDBInstance(String dbName){
+        final boolean[] flag = {false};
+        String path ="./output/"+dbName+".mv.db";
+        try (Stream<Path> walk = Files.walk(Paths.get("./output"))) {
+
+            List<String> results = walk.filter(Files::isRegularFile)
+                    .map(x -> x.toString()).collect(Collectors.toList());
+
+            results.forEach(result -> {
+                if(result.equals(path)){
+                    flag[0]=true;
+                }
+            });
+        } catch (IOException e) {
+            _log.error("Error checking the RDB instances: "+e.getMessage());
+        }
+        return flag[0];
     }
 
 
