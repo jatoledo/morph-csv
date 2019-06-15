@@ -155,7 +155,7 @@
     <dependency>
       <groupId>es.upm.fi.dia.oeg.morph</groupId>
       <artifactId>morph-rdb</artifactId>
-      <version>3.9.15</version>
+      <version>3.9.17</version>
       <scope>system</scope>
       <systemPath>${pom.basedir}/lib/morph-rdb.jar</systemPath>
     </dependency>

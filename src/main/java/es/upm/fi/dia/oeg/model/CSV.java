@@ -87,6 +87,7 @@ public class CSV {
         try {
             this.parser = new CsvParser(settings);
             this.rows = parser.parseAll(new BufferedReader(new FileReader(csv.toAbsolutePath().toString())));
+            changeEmptyValues();
         } catch (IOException e) {
            _log.error("Error parsing the CSV "+csv.getFileName()+".csv: "+e.getMessage());
         }
