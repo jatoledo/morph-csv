@@ -71,27 +71,29 @@ public class CSVUtils {
                 }
             }
             for (int j = 1; j < csv.size(); j++) {
-                char[] date = csv.get(j)[index].toCharArray();
-                String year = "", month = "", day = "";
-                for (Integer i = 0; i < date.length; i++) {
-                    if (i == yearIndex) {
-                        year = getPieceofDate(i, 4, date);
-                    }
+                if (!csv.get(j)[index].equals("NULL")) {
+                    char[] date = csv.get(j)[index].toCharArray();
+                    String year = "", month = "", day = "";
+                    for (Integer i = 0; i < date.length; i++) {
+                        if (i == yearIndex) {
+                            year = getPieceofDate(i, 4, date);
+                        }
 
-                    if (i == monthIndex) {
-                        month = getPieceofDate(i, 2, date);
-                        if (month.toCharArray().length < 2) {
-                            month = "0" + month;
+                        if (i == monthIndex) {
+                            month = getPieceofDate(i, 2, date);
+                            if (month.toCharArray().length < 2) {
+                                month = "0" + month;
+                            }
+                        }
+                        if (i == dayIndex) {
+                            day = getPieceofDate(i, 2, date);
+                            if (day.toCharArray().length < 2) {
+                                day = "0" + day;
+                            }
                         }
                     }
-                    if (i == dayIndex) {
-                        day = getPieceofDate(i, 2, date);
-                        if (day.toCharArray().length < 2) {
-                            day = "0" + day;
-                        }
-                    }
+                    csv.get(j)[index] = year + "-" + month + "-" + day;
                 }
-                csv.get(j)[index] = year + "-" + month + "-" + day;
             }
         }
 

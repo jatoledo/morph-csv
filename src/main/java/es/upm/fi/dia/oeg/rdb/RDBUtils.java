@@ -72,7 +72,7 @@ public class RDBUtils {
                 else
                     table += "`" + field.toLowerCase().trim() + "` VARCHAR(MAX)";
                 if(def!=null)
-                    table += " DEFAULT "+def.toString();
+                    table += " DEFAULT '"+def.toString()+"'";
                 /*if(required!=null)
                     table += " NOT NULL";*/
                 table += ",";
