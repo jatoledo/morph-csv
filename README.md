@@ -1,7 +1,7 @@
 # Morph-CSV
-## How to enhance OBDA query-translation over real CSVs?
+## How to enhance OBDA query-translation over Tabular Open Data?
 
-Use CSVW annotations and RML FnO mappings (following YARRRML spec) to generate R2RML mappings and an enriched RDB to enhance OBDA query translation over real CSV files. This framework can be embedded in the top of any R2RML-compliant engine.
+Use CSVW annotations and RML FnO mappings (following YARRRML spec) to generate R2RML mappings and an enriched RDB to enhance OBDA query translation over Tabular Open Data (CSV) files. This framework can be embedded in the top of any R2RML-compliant engine.
 
 - Docker image: https://hub.docker.com/r/dchaves1/morph-csv
 
