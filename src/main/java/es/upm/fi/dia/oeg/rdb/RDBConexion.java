@@ -206,12 +206,15 @@ public class RDBConexion {
             Connection c = DriverManager.getConnection("jdbc:h2:./output/" + rdb+";AUTO_SERVER=TRUE", "sa", "");
             Statement s = c.createStatement();
             for(String f: foreignkeys) {
-                s.execute(f);
-                pw.println(f);
-                //System.out.println(st);
+                try {
+                    s.execute(f);
+                    pw.println(f);
+                }catch (SQLException e){
+                    _log.error("Error creating a FK: "+e.getLocalizedMessage());
+                }
             }
         }catch (Exception e){
-            _log.error("Error creating the tables in the rdb "+rdb+": "+e.getMessage());
+            _log.error("Error connecting to the database "+rdb+": "+e.getMessage());
         }
     }
 
@@ -228,17 +231,21 @@ public class RDBConexion {
                     String alter_column = function_entry.getKey();
                     String function_exp = function_entry.getValue().replace("{","").replace("}","");
                     //if(function_exp.matches(".*\\(.*")) {
+                    try {
                         s.execute("ALTER TABLE " + table_name + " ADD " + alter_column + ";");
                         pw.println("ALTER TABLE " + table_name + " ADD " + alter_column + ";");
                         //System.out.println("ALTER TABLE " + table_name + " ADD " + alter_column + ";");
                         s.execute("UPDATE " + table_name + " SET " + alter_column.split(" ")[0] + "=" + function_exp + ";");
-                        pw2.println("UPDATE "  + table_name + " SET " + alter_column.split(" ")[0] + "=" + function_exp + ";");
+                        pw2.println("UPDATE " + table_name + " SET " + alter_column.split(" ")[0] + "=" + function_exp + ";");
                         //System.out.println("UPDATE " + table_name + " SET " + alter_column.split(" ")[0] + "=" + function_exp + ";");
-                    //}
-                    if(index) {
-                        s.execute("CREATE INDEX "+alter_column.split(" ")[0]+"s ON "+table_name+" ("+alter_column.split(" ")[0]+")");
-                        pw.println("CREATE INDEX "+alter_column.split(" ")[0]+"s ON "+table_name+" ("+alter_column.split(" ")[0]+");");
-                        //System.out.println("CREATE INDEX "+alter_column.split(" ")[0]+"s ON "+table_name+" ("+alter_column.split(" ")[0]+")");
+                        //}
+                        if (index) {
+                            s.execute("CREATE INDEX " + alter_column.split(" ")[0] + "s ON " + table_name + " (" + alter_column.split(" ")[0] + ")");
+                            pw.println("CREATE INDEX " + alter_column.split(" ")[0] + "s ON " + table_name + " (" + alter_column.split(" ")[0] + ");");
+                            //System.out.println("CREATE INDEX "+alter_column.split(" ")[0]+"s ON "+table_name+" ("+alter_column.split(" ")[0]+")");
+                        }
+                    }catch (SQLException e){
+                        _log.error("Error creating index: "+e.getLocalizedMessage());
                     }
 
                 }

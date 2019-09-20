@@ -106,16 +106,21 @@ public class RMLC2R2RML {
 
             }
             if(flag) {
+                boolean rom=false;
                 for (ObjectMap objectMap : predicateObjectMap.getObjectMaps()) {
-                    String o =createObjectMap(objectMap, predicateObjectMap.getPredicateMaps(), c);
-                    if(!o.equals(""))
-                        predicates += o+"\t];\n";
-                }
-                for (RefObjectMap refObjectMap : predicateObjectMap.getRefObjectMaps()) {
-                    predicates += createRefObjectMap(refObjectMap, predicateObjectMap.getPredicateMaps().get(0));
-                    predicates += "\t];\n";
+                    String o = createObjectMap(objectMap, predicateObjectMap.getPredicateMaps(), c);
+                    if (!o.equals("\n\t\t];\n"))
+                        predicates += o + "\t];\n";
                 }
 
+                for (RefObjectMap refObjectMap : predicateObjectMap.getRefObjectMaps()) {
+                    predicates += createRefObjectMap(refObjectMap, predicateObjectMap.getPredicateMaps().get(0));
+                    //predicates += ;
+                    rom=true;
+                }
+                if(rom){
+                    predicates += "\t];\n";
+                }
             }
 
 
@@ -135,29 +140,32 @@ public class RMLC2R2RML {
                 else{
                     column_name=column_name.split("/")[column_name.split("/").length-1].replace(">", "").toUpperCase();
                 }
-                reference += "\t\trr:objectMap[\n\t\t\trr:column \"" +column_name+ "\";\n\t\t];\n";
+                reference += "\t\trr:objectMap[\n\t\t\trr:column \"" +column_name+ "\";";
             }
         }
-        if(objectMap.getDatatype()!=null && !objectMap.getDatatype().getIRIString().isEmpty()){
-            reference += "\t\trr:objectMap[\n\t\t\trr:datatype <"+objectMap.getDatatype().getIRIString()+">;\n\t\t];\n";
-        }
         if(objectMap.getColumn()!=null && !objectMap.getColumn().isEmpty()){
-            reference += "\t\trr:objectMap[\n\t\t\trr:column \""+objectMap.getColumn().toUpperCase()+"\";\n\t\t];\n";
+            reference += "\t\trr:objectMap[\n\t\t\trr:column \""+objectMap.getColumn().toUpperCase()+"\";";
         }
         if(objectMap.getTemplate()!=null && !objectMap.getTemplateString().isEmpty()){
             for(int i =0;i< objectMap.getTemplate().getColumnNames().size();i++){
                 String column = objectMap.getTemplate().getColumnName(i);
                 objectMap.getTemplate().addColumnName(i,column.toUpperCase());
             }
-            reference +="\t\trr:objectMap[\n\t\t\trr:template \""+objectMap.getTemplateString()+"\";\n\t\t];\n";
+            reference +="\t\trr:objectMap[\n\t\t\trr:template \""+objectMap.getTemplateString()+"\";";
         }
         if(objectMap.getConstant()!=null && !objectMap.getConstant().ntriplesString().isEmpty()){
             for(String t: c) {
                 if (!objectMap.getConstant().ntriplesString().equals(t))
-                    reference += "\t\trr:objectMap[\n\t\t\trr:constant " + objectMap.getConstant().ntriplesString() + ";\n\t\t];\n";
+                    reference += "\t\trr:objectMap[\n\t\t\trr:constant " + objectMap.getConstant().ntriplesString() + ";";
             }
         }
-        return reference;
+        if(objectMap.getDatatype()!=null && !objectMap.getDatatype().getIRIString().isEmpty()){
+            reference += "\n\t\t\trr:datatype <"+objectMap.getDatatype().getIRIString()+">;";
+        }
+        if(objectMap.getTermType()!=null && !objectMap.getTermType().getIRIString().isEmpty() && !objectMap.getTermType().getIRIString().equals("http://www.w3.org/ns/r2rml#Literal")){
+            reference += "\n\t\t\trr:termType <"+objectMap.getTermType().getIRIString()+">;";
+        }
+        return reference+"\n\t\t];\n";
 
     }
 

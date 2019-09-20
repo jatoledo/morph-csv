@@ -12,50 +12,118 @@ prefixes:
   bv: "http://bio2rdf.org/bio2rdf_vocabulary:"
   homogv: "http://bio2rdf.org/homologene_vocabulary:"
   ncbiv: "http://bio2rdf.org/ncbigene_vocabulary:"
-
+  genagev: "http://bio2rdf.org/genage_vocabulary:"
+  sidv: "http://bio2rdf.org/sider_vocabulary:"
+  wbv: "http://bio2rdf.org/wormbase_vocabulary:"
+  ndcv: "http://bio2rdf.org/ndc_vocabulary:"
+  taxv: "http://bio2rdf.org/taxv_vocabularY:"
+  
 mappings:
-  TMncbigene-gene_info:
+  TMtaxonomy-division:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/ncbigene/data/gene_info~csv]
-    s: http://bio2rdf.org/ncbigene:$(GeneID)
+      - [./evaluation/bio2rdf/data/taxonomy/division.csv~csv]
+    s: http://bio2rdf.org/taxonomy_resource:division-id-$(division_id)
     po:
-      - [rdf:type, ncbiv:Resource]
-      - [rdf:type, ncbiv:Gene]
-      - [rdf:type, "http://bio2rdf.org/ncbigene_vocabulary:$(type_of_gene)-Gene"]
-      - [rdfs:label, "$(description) (symbol:$(Symbol), taxon:$(tax_id)) [ncbigene:$(GeneID)]"]
-      - [dcterms:title, "$(description) (symbol:$(Symbol), taxon:$(tax_id))"]
-      - [dcterms:description, $(description)]
-      - [dcterms:identifier, "ncbigene:$(GeneID)"]
-      - [ncbiv:symbol, $(Symbol)]
-      - [ncbiv:locus, $(LocusTag)]
-      - [ncbiv:symbol-synonym, $(Synonyms)]
-      - [ncbiv:dbxref, $(dbXrefs)]
-      - [ncbiv:chromosome, $(chromosome)]
-      - [ncbiv:map-location, $(map_location)]
-      - [ncbiv:nomenclature-authority, $(Symbol_from_nomenclature_authority)]
-      - [ncbiv:nomenclature-authority-fullname, $(Full_name_from_nomenclature_authority)]
-      - [ncbiv:nomenclature-status, $(Nomenclature_status)]
-      - [ncbiv:other-designations, $(Other_designations)]
-      - [ncbiv:modification-date, $(Modification_date)]
+      - [rdf:type, taxv:Division]
+      - [rdf:type, taxv:Resource]
+      - [rdfs:label, "$(division_name) [taxonomy_resource:division-id-$(division_id)]"]
+      - [dcterms:title, $(division_name)]
+      - [dcterms:identifier, "taxonomy_resource:division-id-$(division_id)"]
+      - [taxv:division-code, $(division_cde)]
+      - [taxv:comment, $(comments)]
+      
+  TMtaxonomy-gencode:
+    sources:
+      - [./evaluation/bio2rdf/data/taxonomy/gencode.csv~csv]
+    s: http://bio2rdf.org/taxonomy_resource:genetic-code-id-$(genetic_code_id)
+    po:
+      - [rdf:type, taxv:Genetic-Code]
+      - [rdf:type, taxv:Resource]
+      - [rdfs:label, "$(name) [taxonomy_resource:genetic-code-id-$(genetic_code_id)]"]
+      - [dcterms:title, $(name)]
+      - [dcterms:identifier, "taxonomy_resource:genetic-code-id-$(genetic_code_id)"]
+      - [taxv:translation-table, $(cde)]
+      - [taxv:start-codons, $(starts)]
 
-  TMhomologene:
+  TMtaxonomy-names:
     sources:
-      - [https://raw.githubusercontent.com/oeg-upm/morph-csv/master/evaluation/bio2rdf/data/homologene/data/homologene.csv~csv]
-    s: http://bio2rdf.org/homologene:$(hid)
+      - [./evaluation/bio2rdf/data/taxonomy/names.csv~csv]
+    s: http://bio2rdf.org/taxonomy:$(tax_id)_$(name_txt)
     po:
-      - [rdf:type, homogv:Resource]
-      - [rdf:type, homogv:Homologene-Group]
-      - [rdfs:label, "homologene group $(hid) [homologene:$(hid)]"]
-      - [dcterms:title, homologene group $(hid)]
-      - [dcterms:identifier, "[homologene:$(hid)]"]
-      - p: homogv:x-ncbigene
+      - [rdf:type, taxv:Resource]
+      - [rdfs:label, "$(name_class): $(name_txt)"]
+      - [taxv:unique-name, $(unique_name)]
+      - [dcterms:identifier, taxonomy:$(tax_id)]
+
+  TMtaxonomy-nodes:
+    sources:
+      - [./evaluation/bio2rdf/data/taxonomy/nodes.csv~csv]
+    s: http://bio2rdf.org/taxonomy:$(tax_id)
+    po:
+      - [rdf:type, taxv:Resource]
+      - [rdfs:subClassOf, "http://bio2rdf.org/taxonomy:$(parent_tax_id)"]
+      - [taxv:rank, "http://bio2rdf.org/taxonomy_resource:$(rank)"]
+      - [taxv:embl-code, "http://bio2rdf.org/taxonomy_resource:$(embl_code)"]
+      - p: taxv:division-id
         o:
-          - mapping: TMncbigene-gene_info
+          - mapping: TMtaxonomy-division
             condition:
               function: equal
               parameters:
-                - [str1, $(ncbigene)]
-                - [str2, $(GeneID)]
-      - [homogv:gene-symbol, $(genesymbol)]
-      - [homogv:x-gi, "gi:$(gi)"]
-      - [homogv:x-refseq, "refseq:$(refseq)"]
+                - [str1, $(division_id)]
+                - [str2, $(division_id)]
+      - p: taxv:inherited-division
+        o:
+         - function: sql:replace
+           parameters:
+             - parameter: sql:valueParameter
+               value:
+                 function: sql:replace
+                 parameters:
+                   - [sql:valueParameter, $(inherited_div_flag)]
+                   - [sql:valueParameter2, "1"]
+                   - [sql:valueParameter3, "TRUE"]
+             - [sql:valueParameter2, "0"]
+             - [sql:valueParameter3, "FALSE"]
+      - p: taxv:genetic-code-id
+        o:
+          - mapping: TMtaxonomy-gencode
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(genetic_code_id)]
+                - [str2, $(genetic_code_id)]
+      - p: taxv:inherited-genetic-code
+        o:
+         - function: sql:replace
+           parameters:
+             - parameter: sql:valueParam 
+               value:
+                 function: sql:replace
+                 parameters:
+                   - [sql:valueParam, $(inherited_GC_flag)]
+                   - [sql:valueParam2, "1"]
+                   - [sql:valueParam2, "TRUE"]
+             - [sql:valueParam2, "0"]
+             - [sql:valueParam2, "FALSE"]
+      - p: taxv:mit-genetic-code-id
+        o:
+          - mapping: TMtaxonomy-gencode
+            condition:
+              function: equal
+              parameters:
+                - [str1, $(mitochondrial_genetic_code_id)]
+                - [str2, $(genetic_code_id)]
+      - p: taxv:inherited-mitochondrial-genetic-code
+        o:
+         - function: sql:replace
+           parameters:
+             - parameter: sql:valueParam 
+               value:
+                 function: sql:replace
+                 parameters:
+                   - [sql:valueParam, $(inherited_MGC_flag)]
+                   - [sql:valueParam2, "1"]
+                   - [sql:valueParam2, "TRUE"]
+             - [sql:valueParam2, "0"]
+             - [sql:valueParam2, "FALSE"]

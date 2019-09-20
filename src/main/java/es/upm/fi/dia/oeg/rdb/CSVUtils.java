@@ -71,7 +71,7 @@ public class CSVUtils {
                 }
             }
             for (int j = 1; j < csv.size(); j++) {
-                if (!csv.get(j)[index].equals("NULL")) {
+                if (!csv.get(j)[index].equals("NULL") & !csv.get(j)[index].equals("") ) {
                     char[] date = csv.get(j)[index].toCharArray();
                     String year = "", month = "", day = "";
                     for (Integer i = 0; i < date.length; i++) {
