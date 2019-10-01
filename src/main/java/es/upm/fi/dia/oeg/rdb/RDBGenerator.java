@@ -203,14 +203,14 @@ public class RDBGenerator {
                         String url = csv.getParentUrl();
                         for(CSV aux: csvs){
                             if(aux.getUrl().equals(url)){
-                                rdbConexion.loadCSVinTable(triplesMap,aux.getRows(),tableName,rdb.getName());
+                                rdbConexion.loadCSVinTable(triplesMap,aux.getRows(),tableName,rdb.getName(),csvw);
                                 break;
                             }
                         }
 
                     }
                     else {
-                       rdbConexion.loadCSVinTable(triplesMap, csv.getRows(), tableName, rdb.getName());
+                       rdbConexion.loadCSVinTable(triplesMap, csv.getRows(), tableName, rdb.getName(),csvw);
                     }
                     break;
                 }

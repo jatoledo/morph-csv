@@ -41,16 +41,15 @@ public class RDBUtils {
         else
             headers = csv.getRows().get(0);
 
-        ArrayList<String> primaryKeys = m.getPrimaryKeys(tripleMap,csvw);
+        ArrayList<String> primaryKeys = m.getPrimaryKeys(tripleMap,csvw,csv.getParentUrl());
         String sourceUrl = ((Source)tripleMap.getLogicalSource()).getSourceName();
         HashMap<String,ArrayList<String>> foreignKeys = m.getForeignKeys(tripleMap);
         JSONArray annotations = CSVWUtils.getAnnotationsFromSource(csvw.getContent().getJSONArray("tables"),csv);
         String tableName = sourceUrl.split("/")[sourceUrl.split("/").length-1].replace(".csv","").toUpperCase();
         String table="DROP TABLE IF EXISTS "+tableName+";\nCREATE TABLE "+tableName+" ";
         table+="(";
-
         for(String field : headers){
-            if(checkColumnInMapping(field,tripleMap)) {
+            if(checkColumnInAnnotations(field,tripleMap,csvw)) {
                 String datatype = null;
                 Object def=null;
                 for (Object o : annotations) {
@@ -98,15 +97,19 @@ public class RDBUtils {
 
 
         table+=");\n";
-        //System.out.println(table);
+        System.out.println(table);
         return table;
     }
 
 
-    public static boolean checkColumnInMapping(String header, TriplesMap triplesMap){
+    public static boolean checkColumnInAnnotations(String header, TriplesMap triplesMap, CSVW csvw){
         boolean flag = false;
+        MappingUtils m = new MappingUtils();
         if(triplesMap.getSubjectMap().getTemplate().getColumnNames().contains(header.trim())){
             flag= true;
+        }
+        else if(m.getPrimaryKeys(triplesMap,csvw,"").contains(header)){
+            flag=true;
         }
         else {
             for(PredicateObjectMap pom : triplesMap.getPredicateObjectMaps()){

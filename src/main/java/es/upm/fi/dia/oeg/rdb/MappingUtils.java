@@ -1,5 +1,6 @@
 package es.upm.fi.dia.oeg.rdb;
 
+import es.upm.fi.dia.oeg.model.CSV;
 import es.upm.fi.dia.oeg.model.CSVW;
 import es.upm.fi.dia.oeg.model.RMLCMapping;
 import es.upm.fi.dia.oeg.rmlc.api.model.*;
@@ -42,13 +43,13 @@ public class MappingUtils {
         return subjectMapColumns;
     }*/
 
-    public ArrayList<String> getPrimaryKeys(TriplesMap s, CSVW csvw){
+    public ArrayList<String> getPrimaryKeys(TriplesMap s, CSVW csvw, String parentUrl){
         ArrayList<String> primaryKeys = new ArrayList<>();
 
         JSONArray tables = csvw.getContent().getJSONArray("tables");
 
         for(Object j : tables){
-            if(((JSONObject) j).getString("url").equals(((Source)s.getLogicalSource()).getSourceName())){
+            if(((JSONObject) j).getString("url").equals(((Source)s.getLogicalSource()).getSourceName()) || ((JSONObject) j).getString("url").equals((parentUrl))){
                 if(((JSONObject) j).getJSONObject("tableSchema").has("primaryKey")){
                     primaryKeys = new ArrayList<>(Arrays.asList(((JSONObject) j).getJSONObject("tableSchema").getString("primaryKey").split(",")));
 

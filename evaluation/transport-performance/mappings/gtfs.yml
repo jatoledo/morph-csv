@@ -173,7 +173,7 @@ mappings:
   calendar_date_rules:
     sources:
       - [./evaluation/transport-performance/data/CALENDAR_DATES.csv~csv]
-    s: http://transport.linkeddata.es/madrid/metro/calendar_date_rule/$(service_id)-$(date)
+    s: http://transport.linkeddata.es/madrid/metro/calendar_date_rule/$(service_id)
     po:
       - [a, gtfs:CalendarDateRule]
       - [dct:date, $(date), xsd:date]
@@ -214,7 +214,7 @@ mappings:
       - [geo:lat,$(shape_pt_lat),xsd:double]
       - [geo:long,$(shape_pt_lon),xsd:double]
       - [gtfs:pointSequence,$(shape_pt_sequence)]
-      - [gtfs:distanceTraveled,$(shape_dist_traveled)]
+      - [gtfs:distanceTraveled,$(shape_dist)]
   frequencies:
     sources:
       - [./evaluation/transport-performance/data/FREQUENCIES.csv~csv]

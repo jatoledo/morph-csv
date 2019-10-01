@@ -1,6 +1,7 @@
 package es.upm.fi.dia.oeg.rdb;
 
 
+import es.upm.fi.dia.oeg.model.CSVW;
 import es.upm.fi.dia.oeg.rmlc.api.model.TriplesMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,35 +65,37 @@ public class RDBConexion {
             Statement s=c.createStatement();
             String[] st = tables.split("\n");
             for(String saux : st) {
-                if(!saux.matches(".*FOREIGN.*")) {
-                    s.execute(saux);
-                    pw.println(saux);
-                    //System.out.println(saux);
-                }
-                else{
-                   String tableName = saux.split("TABLE")[1].split("\\(")[0];
-                   String[] splitedst = saux.split("FOREIGN");
-                   for(int i=1;i<splitedst.length;i++) {
-                       if(splitedst[i].matches(".*,")){
-                           foreignkeys.add("ALTER TABLE " + tableName + " ADD FOREIGN " + splitedst[i].replace(",", ";"));
-                       }
-                       else {
-                           foreignkeys.add("ALTER TABLE " + tableName + " ADD FOREIGN " + splitedst[i].replace(");", ";"));
-                       }
-                   }
-                   s.execute(splitedst[0].substring(0,splitedst[0].length()-1)+");");
-                   pw.println(splitedst[0].substring(0,splitedst[0].length()-1)+");");
-                   //System.out.println(splitedst[0].substring(0,splitedst[0].length()-1)+");");
+                try {
+                    if (!saux.matches(".*FOREIGN.*")) {
+                        s.execute(saux);
+                        pw.println(saux);
+                        //System.out.println(saux);
+                    } else {
+                        String tableName = saux.split("TABLE")[1].split("\\(")[0];
+                        String[] splitedst = saux.split("FOREIGN");
+                        for (int i = 1; i < splitedst.length; i++) {
+                            if (splitedst[i].matches(".*,")) {
+                                foreignkeys.add("ALTER TABLE " + tableName + " ADD FOREIGN " + splitedst[i].replace(",", ";"));
+                            } else {
+                                foreignkeys.add("ALTER TABLE " + tableName + " ADD FOREIGN " + splitedst[i].replace(");", ";"));
+                            }
+                        }
+                        s.execute(splitedst[0].substring(0, splitedst[0].length() - 1) + ");");
+                        pw.println(splitedst[0].substring(0, splitedst[0].length() - 1) + ");");
+                        //System.out.println(splitedst[0].substring(0,splitedst[0].length()-1)+");");
+                    }
+                }catch (SQLException e){
+                    _log.error("Error creating the table "+saux+" in "+rdb+":"+e.getMessage());
                 }
             }
             s.close();c.close();
 
         }catch (Exception e){
-            _log.error("Error creating the tables in the rdb "+rdb+": "+e.getMessage());
+            _log.error("Error open the connection for  "+rdb+": "+e.getMessage());
         }
     }
 
-    public void loadCSVinTable(TriplesMap tp, List<String[]> rows, String table, String rdb){
+    public void loadCSVinTable(TriplesMap tp, List<String[]> rows, String table, String rdb, CSVW csvw){
         try {
 
             Class.forName ("org.h2.Driver");
@@ -115,7 +118,7 @@ public class RDBConexion {
                             insert.append("INSERT INTO "+table+" ");
                             insert.append("VALUES(");
                             for(int j=0;j<r.length;j++){
-                                if(RDBUtils.checkColumnInMapping(rows.get(0)[j],tp))
+                                if(RDBUtils.checkColumnInAnnotations(rows.get(0)[j],tp,csvw))
                                     if(r[j].equals("")){
                                         insert.append("'',");
                                     }
