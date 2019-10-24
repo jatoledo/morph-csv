@@ -150,7 +150,7 @@
        {
         "datatype": {
           "base": "date",
-           "format": "yyyyMMdd"
+           "format": "yyyy-MM-dd"
         },
         "titles": [
          "start_date"
@@ -163,7 +163,7 @@
        {
         "datatype": {
           "base": "date",
-           "format": "yyyyMMdd"
+           "format": "yyyy-MM-dd"
         },
         "titles": [
          "end_date"
@@ -195,7 +195,7 @@
        {
         "datatype": {
            "base": "date",
-           "format": "yyyyMMdd"
+           "format": "yyyy-MM-dd"
         },
         "titles": [
          "date"
@@ -249,7 +249,7 @@
        {
         "datatype": {
          "base": "date",
-         "format": "yyyyMMdd"
+         "format": "yyyy-MM-dd"
         },
         "titles": [
          "feed_start_date"
@@ -263,7 +263,7 @@
        {
         "datatype": {
          "base": "date",
-         "format": "yyyyMMdd"
+         "format": "yyyy-MM-dd"
         },
         "titles": [
          "feed_end_date"
@@ -522,7 +522,8 @@
          "stop_sequence"
         ], 
         "@id": "https://iisg.amsterdam/stop_times.txt/column/stop_sequence", 
-        "name": "stop_sequence", 
+        "name": "stop_sequence",
+        "default": 0,
         "required": true,
         "dc:description": "stop_sequence"
        }, 

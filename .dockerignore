@@ -3,3 +3,5 @@
 morph-csv.iml
 example.log
 evaluation/
+target/
+morph-csv.jar
