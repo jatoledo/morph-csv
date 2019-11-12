@@ -28,4 +28,5 @@ At the evaluation folder you find original data, mappings, queries and results o
 
 ## Publications:
 -  David Chaves-Fraga, Freddy Priyatna, Idafen Santana-Pérez and Oscar Corcho  “Virtual Statistics Knowledge Graph Generation from CSV files”. In:Emerging Topics in Semantic Technologies: ISWC2018  Satellite  Events. Vol. 36. Studies on the Semantic Web. IOS Press,2018, pp. 235–244 [Online Version](https://www.researchgate.net/publication/328118582_Virtual_Statistics_Knowledge_Graph_Generation_from_CSV_files)
-- Oscar Corcho, Freddy Priyatna, David Chaves-Fraga: Towards a New Generation of Ontology Based Data Access. In: Semantic Web Journal [Preprint version](http://www.semantic-web-journal.net/content/towards-new-generation-ontology-based-data-access)
+- Oscar Corcho, Freddy Priyatna, David Chaves-Fraga: "Towards a New Generation of Ontology Based Data Access". In: Semantic Web Journal, 2019. [Preprint version](http://www.semantic-web-journal.net/content/towards-new-generation-ontology-based-data-access)
+- Ana Iglesias-Molina, David Chaves-Fraga, Freddy Priyatna, Oscar Corcho: "Enhancing the Maintainability of the Bio2RDF project Using Declarative Mappings". In: 12th International Semantic Web Applications and Tools for Health Care and Life Sciences Conference, 2019.
